@@ -5,10 +5,8 @@
 // information for Orion Mall Gorakhpur. Replace with verified data before public
 // use. isVerified: false marks conceptual/demo content.
 
-import { floorLabel } from './floors'
+import { FLOOR_HEIGHT, floorLabel } from './floors'
 export { floorLabel }
-
-const FLOOR_HEIGHT = 4.25
 
 const categoryImage = {
   Fashion: '/images/fashion/storefront-a.svg',
@@ -124,23 +122,17 @@ const baseStores = [
   { id: 'f3-info', slug: 'entertainment-info', name: 'Entertainment Information Desk', category: 'Customer Service', floor: 3, unit: 'F3-015', description: 'Show timings, bookings and visitor help.', tags: ['Customer Service', 'Help Desk'], isVerified: false },
 ]
 
-// Deterministic positions around a two-sided atrium corridor per floor.
-// Left side x = -4.4, right side x = 4.4. Facilities sit at centre-back (x = 0).
+// Deterministic positions along both sides of the corridor on every floor.
+// Keep service destinations beside the retail units so the central walkway stays clear.
 function assignPositions(stores) {
   return stores.map((store) => {
     const floorStores = stores.filter((s) => s.floor === store.floor)
     const sameFloorIndex = floorStores.findIndex((s) => s.id === store.id)
     const side = sameFloorIndex % 2 === 0 ? -1 : 1
     const slot = Math.floor(sameFloorIndex / 2)
-    let z = -9 + slot * 3.0
-    let x = side * 4.4
-    let y = store.floor * FLOOR_HEIGHT
-    // Facilities move toward centre-back for realism.
-    if (['Facilities', 'Customer Service', 'Parking'].includes(store.category)) {
-      x = 0
-      y = store.floor * FLOOR_HEIGHT + 0.05
-      z = -5 + (sameFloorIndex % 4) * 2.6
-    }
+    const z = -12 + slot * 3.4
+    const x = side * 4.4
+    const y = store.floor * FLOOR_HEIGHT
     return { ...store, image: store.image ?? categoryImage[store.category], position: { x, y, z } }
   })
 }

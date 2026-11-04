@@ -64,3 +64,10 @@ export const floorName = (index) => {
 }
 
 export const floorByNumber = (number) => floors.find((f) => f.number === Number(number))
+
+export const adjacentFloorNumber = (number) => {
+  const index = floors.findIndex((floor) => floor.number === Number(number))
+  if (index < 0 || floors.length < 2) return Number(number)
+  const adjacentIndex = index === floors.length - 1 ? index - 1 : index + 1
+  return floors[adjacentIndex].number
+}

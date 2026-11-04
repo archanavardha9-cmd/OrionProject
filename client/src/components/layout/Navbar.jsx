@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import { ArrowLeft, ArrowUpRight, Menu, X } from 'lucide-react'
 
 const links = [
+  ['Home', '/'],
   ['Explore', '/explore'],
   ['Stores', '/stores'],
   ['Dining', '/dining'],
@@ -35,7 +36,7 @@ export default function Navbar() {
           <NavLink
             key={path}
             to={path}
-            end={path === '/explore'}
+            end={path === '/' || path === '/explore'}
             onClick={() => setOpen(false)}
           >
             {label}

@@ -1,316 +1,175 @@
-import { useEffect, useMemo, useState, Suspense } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { ArrowRight, Compass, MapPin, Search, SlidersHorizontal, X } from 'lucide-react'
+import { useCallback, useMemo, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { ArrowUpRight, List, Search, X } from 'lucide-react'
 import { floors, floorLabel } from '../../data/floors'
-import { stores, findStore, searchStores, categories } from '../../data/stores'
-import MallScene from '../../components/3d/MallScene'
-import LoadingScreen from '../../components/layout/LoadingScreen'
-import Button from '../../components/common/Button'
-import ImageWithFallback from '../../components/common/ImageWithFallback'
+import { stores, findStore, searchStores } from '../../data/stores'
+import MallWalkthrough from '../../components/3d/MallWalkthrough'
 import './explorer.css'
 
 export default function ExplorerPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const routeStoreSlug = searchParams.get('store')
   const routeStore = routeStoreSlug ? findStore(routeStoreSlug) : null
-
   const [floor, setFloor] = useState(() => (routeStore ? Number(routeStore.floor) : 0))
-  const [selected, setSelected] = useState(routeStore || null)
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState('All')
-  const [focusKey, setFocusKey] = useState(0)
+  const [directoryOpen, setDirectoryOpen] = useState(false)
 
-  const matches = useMemo(() => searchStores(query), [query])
-  const filtered = useMemo(() => {
-    return matches.filter(
-      (s) =>
-        (category === 'All' || s.category === category) &&
-        s.floor === Number(floor)
-    )
-  }, [matches, category, floor])
-
-  const activeStore = routeStore || selected
   const activeFloor = routeStore ? Number(routeStore.floor) : floor
+  const activeStore = routeStore
+  const floorInfo = floors.find((item) => item.number === activeFloor)
 
-  const selectStore = (store) => {
+  const floorStores = useMemo(
+    () => stores.filter((store) => store.floor === activeFloor),
+    [activeFloor]
+  )
+  const floorCategories = useMemo(
+    () => ['All', ...new Set(floorStores.map((store) => store.category))],
+    [floorStores]
+  )
+  const visibleStores = useMemo(() => {
+    const matches = searchStores(query)
+    return matches.filter((store) =>
+      store.floor === activeFloor && (category === 'All' || store.category === category)
+    )
+  }, [query, activeFloor, category])
+
+  const closeStore = useCallback(() => {
+    setSearchParams({}, { replace: true })
+  }, [setSearchParams])
+
+  const selectStore = useCallback((store) => {
+    if (!store) {
+      closeStore()
+      return
+    }
     setSearchParams({ store: store.slug })
     setFloor(Number(store.floor))
-    setSelected(store)
-    setQuery('')
+    setCategory(store.category)
+    setDirectoryOpen(false)
+  }, [closeStore, setSearchParams])
+
+  const changeFloor = useCallback((nextFloor) => {
+    setSearchParams({}, { replace: true })
+    setFloor(Number(nextFloor))
     setCategory('All')
-    setFocusKey((v) => v + 1)
-  }
-
-  const changeFloor = (number) => {
-    setSearchParams({})
-    setFloor(number)
-    setSelected(null)
     setQuery('')
-    setCategory('All')
-  }
-
-  const closeStore = () => {
-    setSearchParams({})
-    setSelected(null)
-  }
-
-  useEffect(() => {
-    const onEscape = (event) => {
-      if (event.key === 'Escape') {
-        closeStore()
-      }
-    }
-    window.addEventListener('keydown', onEscape)
-    return () => window.removeEventListener('keydown', onEscape)
-  }, [closeStore])
-
-  const floorInfo = floors.find((f) => f.number === activeFloor)
+  }, [setSearchParams])
 
   return (
-    <div className="explore-page">
-      <div className="explore-header">
-        <div className="explore-header-copy">
-          <p className="eyebrow"><span className="eyebrow-line" />THE ORION MALL EXPLORER</p>
-          <h1>Find your<br /><em>way around.</em></h1>
-          <p className="explore-header-copy-text">
-            Choose a level, discover a destination, and get closer to where you want to be.
-          </p>
+    <div className="mall-explorer-page">
+      <header className="mall-explorer-header">
+        <div className="mall-explorer-header-copy">
+          <p className="mall-explorer-eyebrow">ORION MALL <span /> INTERACTIVE DIRECTORY</p>
+          <h1>Explore the mall<span>.</span></h1>
+          <p>Choose a level, look around, and find a shop. This concept walkthrough uses sample directory data.</p>
         </div>
-        <div className="explore-header-actions">
-          <Button variant="outline" onClick={() => setSearchParams({})}>
-            <X size={14} /> Clear selection
-          </Button>
+        <Link to="/stores" className="mall-explorer-directory-link">
+          Store directory <ArrowUpRight size={16} />
+        </Link>
+      </header>
+
+      <nav className="mall-explorer-floor-tabs" aria-label="Choose a mall floor">
+        {floors.map((item) => (
+          <button
+            key={item.id}
+            className={activeFloor === item.number ? 'active' : ''}
+            onClick={() => changeFloor(item.number)}
+            aria-pressed={activeFloor === item.number}
+          >
+            <span className="mall-floor-level-label">{item.label}</span>
+            <span>{item.name}</span>
+          </button>
+        ))}
+      </nav>
+
+      <section className="mall-explorer-shell" aria-label="Interactive mall explorer">
+        <div className="mall-explorer-toolbar">
+          <button
+            className={`mall-explorer-directory-toggle ${directoryOpen ? 'active' : ''}`}
+            onClick={() => setDirectoryOpen((open) => !open)}
+            aria-expanded={directoryOpen}
+            aria-controls="explorer-directory-panel"
+            type="button"
+          >
+            {directoryOpen ? <X size={16} /> : <List size={16} />}
+            {directoryOpen ? 'Close directory' : 'Browse shops'}
+            <span>{floorStores.length}</span>
+          </button>
+          <p>{floorInfo?.name} <span>&middot;</span> {floorInfo?.wing}</p>
         </div>
-      </div>
 
-      <div className="explorer-workspace">
-        <aside className="explorer-rail">
-          <span className="rail-caption">CHOOSE A LEVEL</span>
-          <div className="rail-floors" aria-label="Mall floors">
-            {floors.map((item) => (
-              <button
-                key={item.number}
-                className={activeFloor === item.number ? 'active' : ''}
-                onClick={() => changeFloor(item.number)}
-                aria-pressed={activeFloor === item.number}
-              >
-                <b>{item.label}</b>
-                <span>{item.name}</span>
-              </button>
-            ))}
-          </div>
-          <div className="floor-description">
-            <span>{floorLabel(activeFloor)} / ORION</span>
-            <p>{floorInfo?.description}</p>
-            {floorInfo?.image && (
-              <div className="floor-preview">
-                <ImageWithFallback
-                  src={floorInfo.image}
-                  alt={`${floorInfo.name} floor`}
-                  className="floor-preview-image"
-                />
-              </div>
-            )}
-          </div>
-          <div className="interaction-guide">
-            <span className="rail-caption">A QUICK GUIDE</span>
-            <p><i>01</i>Drag to look around</p>
-            <p><i>02</i>Click a storefront</p>
-            <p><i>03</i>Choose a floor to travel</p>
-            <small>On touchscreens, swipe across the scene. Press Esc to close details.</small>
-          </div>
-          <div className="rail-footer">
-            <Button variant="ghost" size="small" onClick={() => setFocusKey((v) => v + 1)}>
-              <Compass size={14} /> Reset view
-            </Button>
-          </div>
-        </aside>
-
-        <section className="explorer-scene-shell" aria-label="Interactive three-dimensional mall directory">
-          <div className="explorer-scene-top">
-            <span><MapPin size={14} />{floorInfo?.name} LEVEL</span>
-            <span>GORAKHPUR &middot; INDIA</span>
-          </div>
-          <div className="explorer-toolbar">
-            <SearchBar
-              value={query}
-              onChange={setQuery}
-              placeholder="Find a store or category"
-              ariaLabel="Search stores in the explorer"
-            />
-            <button className="toolbar-filters" onClick={() => {}}>
-              <SlidersHorizontal size={15} /> Filters
-            </button>
-          </div>
-          <div className="explorer-search-results">
-            {query && (
-              <div className="search-list">
-                {matches.length ? (
-                  matches.slice(0, 8).map((store) => (
-                    <button
-                      key={store.id}
-                      onClick={() => selectStore(store)}
-                      className={store.id === activeStore?.id ? 'active' : ''}
-                    >
-                      <span>
-                        <strong>{store.name}</strong>
-                        <small>{store.category}</small>
-                      </span>
-                      <span>{floorLabel(store.floor)} <ArrowRight size={12} /></span>
-                    </button>
-                  ))
-                ) : (
-                  <p>No destinations match that search.</p>
-                )}
-              </div>
-            )}
-          </div>
-          <Suspense fallback={<LoadingScreen label="Opening the mall" />}>
-            <MallScene
-              stores={stores}
-              floors={floors}
+        <div className={`mall-explorer-workspace ${directoryOpen ? 'directory-open' : ''}`}>
+          <section className="mall-explorer-stage" aria-label={`${floorInfo?.name} 3D mall walkthrough`}>
+            <MallWalkthrough
               floor={activeFloor}
               selectedStore={activeStore}
               onSelectStore={selectStore}
-              focusKey={focusKey}
+              onChangeFloor={changeFloor}
+              mode="full"
+              height="100%"
             />
-          </Suspense>
-          <div className="explorer-scene-hint">
-            <span className="drag-icon">&#8596;</span>DRAG TO LOOK AROUND
-            <span className="hint-dot" />
-            CLICK A STOREFRONT
-          </div>
-          {activeStore && (
-            <StorePanel
-              store={activeStore}
-              onClose={closeStore}
-              onNavigate={() => setFocusKey((v) => v + 1)}
-              onSelectStore={selectStore}
-            />
-          )}
-          <span className="scene-illustrative-label">
-            CONCEPTUAL 3D DIRECTORY &middot; FLOOR LAYOUTS ARE ILLUSTRATIVE
-          </span>
-        </section>
-      </div>
+          </section>
 
-      <div className="explorer-directory">
-        <div className="directory-header">
-          <h2>Destinations on {floorInfo?.name}</h2>
-          <div className="directory-controls">
-            <span className="filter-label">CATEGORY</span>
-            {categories.map((item) => (
-              <button
-                key={item}
-                className={category === item ? 'active' : ''}
-                onClick={() => setCategory(item)}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
-        </div>
-        <div className="directory-count">
-          <span>DESTINATIONS / {String(filtered.length).padStart(2, '0')}</span>
-          <span>{floorLabel(activeFloor)} FLOOR</span>
-        </div>
-        <div className="directory-list">
-          {filtered.map((store) => (
-            <a
-              key={store.id}
-              href={`/stores/${store.slug}`}
-              className={`directory-row ${store.id === activeStore?.id ? 'active' : ''}`}
-              onClick={(e) => {
-                e.preventDefault()
-                selectStore(store)
-              }}
-            >
-              <div className="directory-row-thumb">
-                <ImageWithFallback
-                  src={store.image}
-                  alt={store.name}
-                  className="directory-row-thumb-image"
+          {directoryOpen && (
+            <aside className="mall-explorer-directory" id="explorer-directory-panel" aria-label="Shop directory">
+              <div className="mall-directory-panel-heading">
+                <div>
+                  <span className="mall-directory-panel-kicker">{floorLabel(activeFloor)} FLOOR</span>
+                  <h2>Find a shop</h2>
+                </div>
+                <button onClick={() => setDirectoryOpen(false)} aria-label="Close directory" type="button">
+                  <X size={18} />
+                </button>
+              </div>
+              <label className="mall-directory-search">
+                <Search size={16} aria-hidden="true" />
+                <input
+                  type="search"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Search shops or categories"
+                  aria-label="Search shops on this floor"
                 />
+              </label>
+              <div className="mall-directory-categories" aria-label="Shop categories">
+                {floorCategories.map((item) => (
+                  <button
+                    key={item}
+                    className={category === item ? 'active' : ''}
+                    onClick={() => setCategory(item)}
+                    aria-pressed={category === item}
+                    type="button"
+                  >
+                    {item}
+                  </button>
+                ))}
               </div>
-              <div className="directory-row-info">
-                <strong>{store.name}</strong>
-                <span>{store.category} &middot; {store.unit}</span>
+              <p className="mall-directory-result-count">
+                {visibleStores.length} {visibleStores.length === 1 ? 'destination' : 'destinations'}
+              </p>
+              <div className="mall-directory-shop-list">
+                {visibleStores.map((store) => (
+                  <button
+                    key={store.id}
+                    className={`mall-directory-shop ${activeStore?.id === store.id ? 'selected' : ''}`}
+                    onClick={() => selectStore(store)}
+                    type="button"
+                  >
+                    <span className="mall-directory-shop-name">{store.name}</span>
+                    <span className="mall-directory-shop-meta">{store.category} <span>&middot;</span> {store.unit}</span>
+                    <span className="mall-directory-shop-floor">{floorLabel(store.floor)}</span>
+                  </button>
+                ))}
+                {visibleStores.length === 0 && (
+                  <p className="mall-directory-empty">No destinations match this search on {floorInfo?.name}.</p>
+                )}
               </div>
-              <div className="directory-row-floor">
-                <b>{floorLabel(store.floor)}</b>
-                <small>{store.floor === activeFloor ? 'This floor' : 'Another level'}</small>
-              </div>
-              <ArrowRight size={13} />
-            </a>
-          ))}
-          {filtered.length === 0 && (
-            <div className="empty-directory">
-              <Search size={28} />
-              <p>No destinations on this level match your filters.</p>
-              <Button variant="ghost" onClick={() => { setQuery(''); setCategory('All'); setFloor('All') }}>
-                Clear filters
-              </Button>
-            </div>
+              <p className="mall-directory-data-note">Shop and location details are conceptual sample data.</p>
+            </aside>
           )}
         </div>
-      </div>
-
-      <div className="explorer-bottom-note">
-        <span>&#10033;</span>
-        <p>
-          This is a conceptual preview, not a measured mall plan. Store names, floor labels, and
-          locations are illustrative content for this frontend.
-        </p>
-      </div>
+      </section>
     </div>
-  )
-}
-
-function SearchBar({ value, onChange, placeholder, ariaLabel }) {
-  return (
-    <div className="search-bar-wrap">
-      <Search size={17} />
-      <input
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        aria-label={ariaLabel}
-      />
-    </div>
-  )
-}
-
-function StorePanel({ store, onClose, onNavigate, onSelectStore }) {
-  const related = stores.filter(
-    (s) => s.floor === store.floor && s.id !== store.id
-  ).slice(0, 3)
-
-  return (
-    <aside className="explorer-store-panel">
-      <button className="panel-dismiss" onClick={onClose} aria-label="Close store details">
-        <X size={20} />
-      </button>
-      <span className="eyebrow">YOUR NEXT STOP</span>
-      <span className="store-panel-category">{store.category} &middot; {floorLabel(store.floor)}</span>
-      <h2>{store.name}</h2>
-      <p>{store.description}</p>
-      <span className="panel-location"><MapPin size={14} />{store.unit} &middot; {store.floor}</span>
-      <div className="store-panel-actions">
-        <Button variant="dark" asChild component="a" href={`/stores/${store.slug}`}>
-          View details
-        </Button>
-        <Button variant="outline" onClick={onNavigate}>
-          <Compass size={14} /> Navigate to store
-        </Button>
-      </div>
-      <div className="related-stores">
-        <span>ALSO ON THIS FLOOR</span>
-        {related.map((s) => (
-          <button key={s.id} onClick={() => onSelectStore(s)}>
-            {s.name}<ArrowRight size={12} />
-          </button>
-        ))}
-      </div>
-    </aside>
   )
 }

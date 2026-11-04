@@ -413,7 +413,7 @@
 
 .preview-floor-selector {
   position: absolute;
-  z-index: 4;
+  z-index: 15;
   left: 20px;
   top: 50%;
   display: flex;
@@ -1501,5 +1501,64 @@
   .category-stage:hover .category-stage-image,
   .entertainment-home-section:hover .entertainment-backdrop-image {
     transform: none;
+  }
+}
+
+.preview-section .preview-canvas {
+  height: clamp(420px, 52vw, 680px);
+  background: #e8e5dd;
+}
+
+.preview-section .preview-toolbar {
+  min-height: 48px;
+  height: auto;
+  padding: 10px 18px;
+  background: #f3efe6;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+}
+
+.preview-section .preview-toolbar > span:nth-child(2) {
+  display: inline-flex;
+}
+
+.preview-open-button {
+  position: absolute;
+  z-index: 15;
+  right: 20px;
+  bottom: 20px;
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  gap: 10px;
+  padding: 0 15px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 6px;
+  background: rgba(43, 41, 36, 0.94);
+  color: #fffefa;
+  font-size: 10px;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(34, 31, 26, 0.18);
+  transition: background 0.18s, transform 0.18s;
+}
+
+.preview-open-button:hover {
+  background: #554b39;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+  .preview-section .preview-canvas {
+    height: 420px;
+  }
+
+  .preview-section .preview-toolbar > span:nth-child(2) {
+    display: none;
+  }
+
+  .preview-open-button {
+    right: 12px;
+    bottom: 12px;
+    min-height: 38px;
   }
 }

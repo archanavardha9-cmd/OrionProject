@@ -1,19 +1,17 @@
-import { useState, useMemo, Suspense } from 'react'
+import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowDownRight, ArrowUpRight, Clock3, MapPin, ParkingCircle } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { mallInfo as demoMall } from '../../data/mallInfo'
 import { stores, floorLabel } from '../../data/stores'
-import { floors } from '../../data/floors'
 import { events } from '../../data/events'
 import { offers } from '../../data/events'
 import HeroScene from '../../three/HeroScene'
-import MallScene from '../../components/3d/MallScene'
+import MallWalkthrough from '../../components/3d/MallWalkthrough'
 import ImageWithFallback from '../../components/common/ImageWithFallback'
 import Button from '../../components/common/Button'
 import SectionHeading from '../../components/common/SectionHeading'
 import PageTransition from '../../components/layout/PageTransition'
-import LoadingScreen from '../../components/layout/LoadingScreen'
 import './home.css'
 
 const categories = [
@@ -74,8 +72,6 @@ const categoryDetails = {
 const featured = stores.slice(0, 4)
 
 export default function HomePage() {
-  const [floor, setFloor] = useState(0)
-  const [selected, setSelected] = useState(null)
   const [category, setCategory] = useState(categories[0])
 
   const diningVenues = useMemo(
@@ -215,68 +211,21 @@ export default function HomePage() {
                 <em>the atrium.</em>
               </>
             }
-            copy="Interact with our 3D architectural model. Select a floor, inspect storefronts, and plan your journey before arriving."
+            copy="Take a look inside the mall, then open the full Explorer to find shops and move between floors."
             to="/explore"
-            linkLabel="Launch Full Explorer"
+            linkLabel="Explore Mall"
           />
           <div className="preview-shell">
             <div className="preview-toolbar">
               <span>
-                <span className="live-dot" /> LIVE 3D ATRIUM PREVIEW
+                <span className="live-dot" /> LIVE 3D WALKTHROUGH PREVIEW
               </span>
-              <span>DRAG TO PAN &middot; SELECT STOREFRONT FOR DETAILS</span>
-              <Link to="/explore">
-                FULL SCREEN EXPLORER <ArrowUpRight size={13} />
-              </Link>
+              <span>DRAG TO LOOK AROUND</span>
             </div>
             <div className="preview-canvas">
-              <Suspense fallback={<LoadingScreen label="Constructing 3D Atrium" />}>
-                <MallScene
-                  stores={stores}
-                  floors={floors}
-                  floor={floor}
-                  selectedStore={selected}
-                  onSelectStore={(store) => {
-                    setFloor(Number(store.floor))
-                    setSelected(store)
-                  }}
-                />
-              </Suspense>
-              <div className="preview-floor-selector" aria-label="Floor selector">
-                {floors.map((item) => (
-                  <button
-                    key={item.number}
-                    className={floor === item.number ? 'active' : ''}
-                    onClick={() => {
-                      setFloor(item.number)
-                      setSelected(null)
-                    }}
-                    aria-pressed={floor === item.number}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-              <div className="preview-location">
-                <MapPin size={14} />
-                <span>{floorLabel(floor)} &middot; Gorakhpur</span>
-              </div>
-              {selected && (
-                <div className="preview-selection">
-                  <button aria-label="Close selection" onClick={() => setSelected(null)}>
-                    &times;
-                  </button>
-                  <span>
-                    {selected.category} &middot; {floorLabel(selected.floor)}
-                  </span>
-                  <strong>{selected.name}</strong>
-                  <Link to={`/stores/${storeSlug(selected)}`}>
-                    View store details <ArrowUpRight size={14} />
-                  </Link>
-                </div>
-              )}
-              <Link className="preview-enter" to="/explore">
-                ENTER FULL 3D EXPLORER <ArrowUpRight size={15} />
+              <MallWalkthrough mode="preview" height="100%" />
+              <Link className="preview-open-button" to="/explore">
+                Explore Mall <ArrowUpRight size={15} />
               </Link>
             </div>
             <p className="preview-disclaimer">{demoMall.note}</p>
@@ -574,10 +523,6 @@ export default function HomePage() {
       </div>
     </PageTransition>
   )
-}
-
-function storeSlug(store) {
-  return store.slug || store.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 }
 
 function getFeaturedStoreImage(store) {
