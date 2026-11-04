@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowDownRight, ArrowUpRight, Clock3, MapPin, ParkingCircle } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -70,6 +70,54 @@ const categoryDetails = {
 }
 
 const featured = stores.slice(0, 4)
+
+// ── Iconic Destinations data ─────────────────────────────────
+const iconicDestinations = [
+  {
+    id: 'fashion-lifestyle',
+    eyebrow: 'FASHION & LIFESTYLE',
+    title: 'Style, Elevated.',
+    description:
+      'From contemporary everyday wear to premium occasion fashion — explore flagship boutiques, curated accessories, fine jewellery, and beauty across multiple floors.',
+    image: '/images/homepage/fashion-lifestyle.webp',
+    link: '/stores?category=Fashion',
+    linkLabel: 'Explore Fashion',
+    accent: '#c8a96a',
+  },
+  {
+    id: 'food-dining',
+    eyebrow: 'FOOD & DINING',
+    title: 'Gather Around the Table.',
+    description:
+      'Artisanal cafés, gourmet restaurants, vibrant food courts, and rooftop terraces — Orion\u2019s dining floor is a celebration of flavour for every occasion.',
+    image: '/images/homepage/dining-experience.webp',
+    link: '/dining',
+    linkLabel: 'Discover Dining',
+    accent: '#b87d4b',
+  },
+  {
+    id: 'entertainment-family',
+    eyebrow: 'ENTERTAINMENT & FAMILY',
+    title: 'Make Room for Play.',
+    description:
+      'Luxurious multiplex cinema, thrilling gaming arcades, bowling alleys, and immersive VR zones — world-class entertainment designed for the whole family.',
+    image: '/images/homepage/entertainment-zone.webp',
+    link: '/entertainment',
+    linkLabel: 'See Entertainment',
+    accent: '#8c7347',
+  },
+  {
+    id: 'everyday-essentials',
+    eyebrow: 'EVERYDAY ESSENTIALS',
+    title: 'Everything You Need.',
+    description:
+      'FreshMart Grocery, City Care Pharmacy, banking services, and everyday conveniences — all thoughtfully placed for effortless, complete shopping visits.',
+    image: '/images/homepage/mall-atrium.webp',
+    link: '/stores',
+    linkLabel: 'View Directory',
+    accent: '#6b7c5c',
+  },
+]
 
 export default function HomePage() {
   const [category, setCategory] = useState(categories[0])
@@ -291,54 +339,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 04. FEATURED DESTINATIONS */}
-        <section className="featured-section home-section-gutter">
-          <SectionHeading
-            number="03"
-            eyebrow="ICONIC DESTINATIONS"
-            title={
-              <>
-                Good things,<br />
-                <em>all around.</em>
-              </>
-            }
-            copy="Hand-selected highlights from our directory. Discover prominent boutiques and experiences designed to inspire."
-            to="/stores"
-            linkLabel="View All Stores"
-          />
-          <div className="featured-composition">
-            <div className="featured-visual">
-              {featured.map((store) => (
-                <Link key={store.id} to={`/stores/${store.slug}`} className="featured-card">
-                  <ImageWithFallback
-                    src={getFeaturedStoreImage(store)}
-                    alt={store.name}
-                    className="featured-card-image"
-                  />
-                  <span className="featured-card-floor">{floorLabel(store.floor)}</span>
-                  <strong>{store.name}</strong>
-                  <small>
-                    {store.category} &middot; {store.unit}
-                  </small>
-                </Link>
-              ))}
-            </div>
-            <div className="featured-list">
-              {featured.map((store, index) => (
-                <Link key={store.id} to={`/stores/${store.slug}`} className="featured-list-item">
-                  <span>
-                    0{index + 1} / {store.category}
-                  </span>
-                  <strong>{store.name}</strong>
-                  <small>
-                    {floorLabel(store.floor)} &middot; {store.location || store.unit}
-                  </small>
-                  <ArrowUpRight size={16} />
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* 04. ICONIC DESTINATIONS */}
+        <IconicDestinations />
 
         {/* 05. DINING HIGHLIGHT */}
         <section className="dining-home-section home-section-gutter">
@@ -529,4 +531,123 @@ function getFeaturedStoreImage(store) {
   if (store.category === 'Beauty') return '/images/homepage/mall-atrium.webp'
   if (store.category === 'Jewellery') return '/images/homepage/offers-promo.webp'
   return '/images/homepage/fashion-lifestyle.webp'
+}
+
+// ── Tilt hook for 3D card effect ─────────────────────────────
+function useTilt() {
+  const ref = useRef(null)
+
+  const handleMove = useCallback((e) => {
+    const card = ref.current
+    if (!card) return
+    const rect = card.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    const cx = rect.width / 2
+    const cy = rect.height / 2
+    const rotX = ((y - cy) / cy) * -6
+    const rotY = ((x - cx) / cx) * 6
+    card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(4px)`
+  }, [])
+
+  const handleLeave = useCallback(() => {
+    if (ref.current) {
+      ref.current.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0px)'
+    }
+  }, [])
+
+  return { ref, handleMove, handleLeave }
+}
+
+// ── Individual destination card ───────────────────────────────
+function DestinationCard({ dest, index }) {
+  const { ref, handleMove, handleLeave } = useTilt()
+  const prefersReduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  return (
+    <motion.div
+      className="icdest-card-wrap"
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.55, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <Link
+        to={dest.link}
+        className="icdest-card"
+        ref={prefersReduced ? null : ref}
+        onMouseMove={prefersReduced ? undefined : handleMove}
+        onMouseLeave={prefersReduced ? undefined : handleLeave}
+      >
+        {/* image layer */}
+        <div className="icdest-img-wrap">
+          <img
+            src={dest.image}
+            alt={dest.title}
+            className="icdest-img"
+            loading="lazy"
+            decoding="async"
+          />
+          <div className="icdest-img-overlay" />
+        </div>
+
+        {/* content layer */}
+        <div className="icdest-content">
+          <span className="icdest-eyebrow" style={{ '--accent': dest.accent }}>
+            {dest.eyebrow}
+          </span>
+          <h3 className="icdest-title">{dest.title}</h3>
+          <p className="icdest-desc">{dest.description}</p>
+          <span className="icdest-cta">
+            {dest.linkLabel} <ArrowUpRight size={14} />
+          </span>
+        </div>
+
+        {/* index badge */}
+        <span className="icdest-index">0{index + 1}</span>
+      </Link>
+    </motion.div>
+  )
+}
+
+// ── Iconic Destinations section ───────────────────────────────
+function IconicDestinations() {
+  return (
+    <section className="icdest-section">
+      <div className="icdest-inner home-section-gutter">
+        <motion.div
+          className="icdest-heading-row"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="icdest-heading-left">
+            <p className="eyebrow">
+              <span className="eyebrow-line" />
+              ICONIC DESTINATIONS
+            </p>
+            <h2>
+              More to love,<br />
+              <em>at every turn.</em>
+            </h2>
+          </div>
+          <div className="icdest-heading-right">
+            <p>
+              Four distinct worlds under one grand roof — curated fashion, acclaimed dining, immersive entertainment, and everyday convenience, all crafted for a premium experience.
+            </p>
+            <Link to="/stores" className="text-link">
+              Explore full directory <ArrowUpRight size={14} />
+            </Link>
+          </div>
+        </motion.div>
+
+        <div className="icdest-grid">
+          {iconicDestinations.map((dest, i) => (
+            <DestinationCard key={dest.id} dest={dest} index={i} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )
 }
