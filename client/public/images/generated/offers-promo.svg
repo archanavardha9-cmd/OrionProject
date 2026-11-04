@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5efe3"/>
+      <stop offset="100%" stop-color="#e0d4b8"/>
+    </linearGradient>
+    <linearGradient id="bag1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c8a96a"/>
+      <stop offset="100%" stop-color="#a88a4a"/>
+    </linearGradient>
+    <linearGradient id="bag2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8a2040"/>
+      <stop offset="100%" stop-color="#6a1030"/>
+    </linearGradient>
+    <linearGradient id="bag3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0e8d8"/>
+      <stop offset="100%" stop-color="#d8c8a8"/>
+    </linearGradient>
+    <linearGradient id="marble" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0e8d8"/>
+      <stop offset="40%" stop-color="#e8dcc4"/>
+      <stop offset="100%" stop-color="#d8ccb0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <!-- Marble surface -->
+  <rect x="0" y="500" width="1920" height="580" fill="url(#marble)"/>
+  <line x1="0" y1="500" x2="1920" y2="500" stroke="#c8b898" stroke-width="1" opacity="0.5"/>
+  <!-- Veining in marble -->
+  <path d="M 100 600 Q 400 580 700 650 Q 1000 620 1300 680 Q 1600 640 1900 660" fill="none" stroke="#d4c4a0" stroke-width="1" opacity="0.3"/>
+  <path d="M 200 800 Q 500 780 800 830 Q 1100 810 1400 850" fill="none" stroke="#d4c4a0" stroke-width="1" opacity="0.2"/>
+  <!-- Shopping bags group -->
+  <!-- Bag 1 (Gold, large) -->
+  <rect x="700" y="250" width="200" height="260" rx="4" fill="url(#bag1)"/>
+  <rect x="710" y="260" width="180" height="100" fill="#b8975a" opacity="0.3"/>
+  <path d="M 760 250 Q 760 220 800 220 Q 840 220 840 250" fill="none" stroke="#a88a4a" stroke-width="3"/>
+  <text x="800" y="420" font-family="Georgia,serif" font-size="14" fill="#fff8e1" text-anchor="middle" letter-spacing="4">ORION</text>
+  <!-- Bag 2 (Burgundy, medium) -->
+  <rect x="920" y="300" width="170" height="220" rx="4" fill="url(#bag2)"/>
+  <rect x="930" y="310" width="150" height="80" fill="#7a1535" opacity="0.3"/>
+  <path d="M 970 300 Q 970 275 1005 275 Q 1040 275 1040 300" fill="none" stroke="#5a0a25" stroke-width="3"/>
+  <rect x="975" y="420" width="60" height="20" rx="2" fill="#c8a96a"/>
+  <!-- Bag 3 (Cream, small) -->
+  <rect x="580" y="320" width="140" height="200" rx="3" fill="url(#bag3)"/>
+  <path d="M 620 320 Q 620 295 650 295 Q 680 295 680 320" fill="none" stroke="#b8a888" stroke-width="2.5"/>
+  <text x="650" y="440" font-family="Georgia,serif" font-size="11" fill="#8a7a5a" text-anchor="middle" letter-spacing="3">LIFESTYLE</text>
+  <!-- Tissue paper peeking out -->
+  <polygon points="720,250 750,230 780,245 810,225 840,248 870,235 900,250" fill="#fff8f0" opacity="0.6"/>
+  <!-- Coffee cup -->
+  <rect x="1120" y="410" width="55" height="70" rx="4" fill="#f0e8d8"/>
+  <rect x="1117" y="405" width="61" height="12" rx="3" fill="#d8c8a8"/>
+  <ellipse cx="1147" cy="400" rx="28" ry="6" fill="#c4a878"/>
+  <path d="M 1175 430 Q 1200 430 1200 455 Q 1200 480 1175 475" fill="none" stroke="#d8c8a8" stroke-width="3"/>
+  <!-- Steam -->
+  <path d="M 1140 390 Q 1135 370 1145 355" fill="none" stroke="#c8b898" stroke-width="1.5" opacity="0.4"/>
+  <path d="M 1155 385 Q 1150 365 1160 350" fill="none" stroke="#c8b898" stroke-width="1.5" opacity="0.3"/>
+  <!-- Gift box -->
+  <rect x="1060" y="360" width="80" height="60" rx="3" fill="#d4956e"/>
+  <rect x="1095" y="360" width="10" height="60" fill="#c8a96a"/>
+  <rect x="1060" y="385" width="80" height="10" fill="#c8a96a"/>
+  <path d="M 1080 360 Q 1100 340 1100 360" fill="none" stroke="#c8a96a" stroke-width="2"/>
+  <path d="M 1120 360 Q 1100 340 1100 360" fill="none" stroke="#c8a96a" stroke-width="2"/>
+  <!-- Discount tag -->
+  <rect x="500" y="370" width="60" height="35" rx="3" fill="#c8a96a" transform="rotate(-15 530 387)"/>
+  <text x="530" y="393" font-family="Georgia,serif" font-size="14" fill="#fff" text-anchor="middle" transform="rotate(-15 530 387)">SALE</text>
+  <!-- Decorative flowers -->
+  <g opacity="0.4">
+    <circle cx="450" cy="480" r="15" fill="#e8a070"/>
+    <circle cx="480" cy="470" r="12" fill="#d8906a"/>
+    <circle cx="465" cy="460" r="10" fill="#f0b080"/>
+    <circle cx="1250" cy="450" r="14" fill="#c87890"/>
+    <circle cx="1275" cy="440" r="11" fill="#d88898"/>
+    <circle cx="1260" cy="430" r="9" fill="#e8a0a8"/>
+  </g>
+  <!-- Warm light spot -->
+  <circle cx="800" cy="300" r="300" fill="#fff8e0" opacity="0.1"/>
+  <!-- Promotional text area -->
+  <rect x="660" y="600" width="600" height="120" rx="6" fill="#292a26" opacity="0.85"/>
+  <text x="960" y="650" font-family="Georgia,serif" font-size="28" fill="#c8a96a" text-anchor="middle" letter-spacing="6">SPECIAL OFFERS</text>
+  <text x="960" y="690" font-family="sans-serif" font-size="12" fill="#a8a090" text-anchor="middle" letter-spacing="4">DISCOVER MORE AT ORION MALL</text>
+</svg>

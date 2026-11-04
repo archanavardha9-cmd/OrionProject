@@ -1,0 +1,15 @@
+:root {
+  --paper: #f8f6f0;
+  --white: #fffefa;
+  --ink: #292824;
+  --muted: #77746b;
+  --gold: #c8a96a;
+  --line: #dfdacf;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'DM Sans', 'Segoe UI', sans-serif;
+
+  --radius: 8px;
+  --shadow-sm: 0 4px 12px rgba(41, 40, 36, 0.06);
+  --shadow-md: 0 12px 36px rgba(41, 40, 36, 0.09);
+  --shadow-lg: 0 24px 60px rgba(41, 40, 36, 0.12);
+}

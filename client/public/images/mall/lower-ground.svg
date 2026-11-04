@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-label="Orion Mall Gorakhpur lower ground floor">
+  <defs>
+    <linearGradient id="skyLg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef3f7"/><stop offset="1" stop-color="#dbe4ec"/></linearGradient>
+    <linearGradient id="floorLg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dcd4c4"/><stop offset="1" stop-color="#cbb8a6"/></linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#skyLg)"/>
+  <rect x="0" y="560" width="1200" height="240" fill="url(#floorLg)"/>
+  <rect x="0" y="560" width="1200" height="6" fill="#b7a68f"/>
+  <rect x="120" y="200" width="960" height="350" fill="#f5f2ec" stroke="#bdb09f" stroke-width="2"/>
+  <rect x="120" y="200" width="960" height="4" fill="#bdb09f"/>
+  <rect x="120" y="550" width="960" height="4" fill="#bdb09f"/>
+  <rect x="200" y="240" width="200" height="300" fill="#e3dccb" stroke="#bdb09f" stroke-width="2"/>
+  <rect x="200" y="240" width="200" height="4" fill="#bdb09f"/>
+  <rect x="206" y="246" width="188" height="120" fill="#b5a68f"/>
+  <rect x="220" y="372" width="60" height="168" fill="#fff9f0" stroke="#bdb09f" stroke-width="2"/>
+  <rect x="800" y="240" width="200" height="300" fill="#e3dccb" stroke="#bdb09f" stroke-width="2"/>
+  <rect x="800" y="240" width="200" height="4" fill="#bdb09f"/>
+  <rect x="806" y="246" width="188" height="120" fill="#b5a68f"/>
+  <rect x="820" y="372" width="60" height="168" fill="#fff9f0" stroke="#bdb09f" stroke-width="2"/>
+  <rect x="430" y="540" width="340" height="14" fill="#b5a68f"/>
+  <rect x="500" y="570" width="200" height="100" fill="#c9b89f" stroke="#bdb09f" stroke-width="2"/>
+  <rect x="500" y="570" width="200" height="4" fill="#bdb09f"/>
+  <rect x="506" y="576" width="188" height="90" fill="#e3dccb" opacity="0.9"/>
+  <rect x="540" y="590" width="120" height="70" fill="#b5a68f"/>
+  <g fill="#9aa8b4" opacity="0.5">
+    <circle cx="300" cy="520" r="6"/><circle cx="320" cy="528" r="5"/><circle cx="880" cy="525" r="6"/><circle cx="900" cy="532" r="5"/>
+    <circle cx="560" cy="515" r="5"/><circle cx="640" cy="522" r="6"/>
+  </g>
+</svg>

@@ -1,14 +1,22 @@
 import { lazy, Suspense, useEffect } from 'react'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
-import { SiteFooter, SiteHeader } from './components/SiteChrome'
-import { demoEvents, demoStores } from './data'
-import {
-  DiningPage, EventDetailsPage, EventsPage, ExplorePage, EntertainmentPage, HomePage,
-  NotFoundPage, OffersPage, StoreDetailsPage, StoresPage, VisitPage,
-} from './pages/Pages'
+import Navbar from './components/layout/Navbar'
+import Footer from './components/layout/Footer'
 import './App.css'
 
 const AdminPage = lazy(() => import('./AdminPage'))
+
+import HomePage from './pages/Home/Home'
+import StoresPage from './pages/Stores/Stores'
+import StoreDetailsPage from './pages/StoreDetails/StoreDetails'
+import DiningPage from './pages/Dining/Dining'
+import EventsPage from './pages/Events/Events'
+import EventDetailsPage from './pages/EventDetails/EventDetails'
+import OffersPage from './pages/Offers/Offers'
+import EntertainmentPage from './pages/Entertainment/Entertainment'
+import VisitPage from './pages/Visit/Visit'
+import NotFoundPage from './pages/NotFound/NotFound'
+import ExplorerPage from './features/mall-explorer/Explorer'
 
 const pageTitles = {
   '/': 'Orion Mall Gorakhpur — More Than Shopping',
@@ -24,15 +32,11 @@ const pageTitles = {
 function RoutedExperience() {
   const location = useLocation()
   const isAdmin = location.pathname.startsWith('/admin')
-  const store = location.pathname.startsWith('/stores/')
-    ? demoStores.find((item) => item.slug === location.pathname.slice('/stores/'.length))
-    : null
-  const event = location.pathname.startsWith('/events/')
-    ? demoEvents.find((item) => item.slug === location.pathname.slice('/events/'.length) || item._id === location.pathname.slice('/events/'.length))
-    : null
+  const storeSlug = location.pathname.startsWith('/stores/') ? location.pathname.slice('/stores/'.length) : null
+  const eventSlug = location.pathname.startsWith('/events/') ? location.pathname.slice('/events/'.length) : null
   const title = pageTitles[location.pathname]
-    || (location.pathname.startsWith('/stores/') ? `${store?.name || 'Store Details'} — Orion Mall Gorakhpur`
-      : location.pathname.startsWith('/events/') ? `${event?.title || 'Event Details'} — Orion Mall Gorakhpur`
+    || (storeSlug ? `${storeSlug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())} — Orion Mall Gorakhpur`
+      : eventSlug ? `${eventSlug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())} — Orion Mall Gorakhpur`
         : location.pathname === '/admin' || isAdmin ? 'Mall Administration — Orion'
           : 'Find Your Way — Orion Mall Gorakhpur')
 
@@ -43,11 +47,11 @@ function RoutedExperience() {
 
   return (
     <>
-      {!isAdmin && <SiteHeader />}
+      {!isAdmin && <Navbar />}
       <main className={location.pathname === '/explore' ? 'route-main route-main-explore' : 'route-main'}>
         <Routes location={location}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/explore" element={<ExplorePage />} />
+          <Route path="/explore" element={<ExplorerPage />} />
           <Route path="/stores" element={<StoresPage />} />
           <Route path="/stores/:slug" element={<StoreDetailsPage />} />
           <Route path="/dining" element={<DiningPage />} />
@@ -60,7 +64,7 @@ function RoutedExperience() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
-      {!isAdmin && <SiteFooter />}
+      {!isAdmin && <Footer />}
     </>
   )
 }

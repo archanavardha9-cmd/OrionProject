@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-label="Orion Mall Gorakhpur entrance">
+  <defs>
+    <linearGradient id="skyEntr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef3f7"/><stop offset="1" stop-color="#dbe4ec"/></linearGradient>
+    <linearGradient id="plazaGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9e4da"/><stop offset="1" stop-color="#dcd4c4"/></linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#skyEntr)"/>
+  <rect x="0" y="640" width="1200" height="160" fill="url(#plazaGrad)"/>
+  <rect x="0" y="640" width="1200" height="6" fill="#c7bca8"/>
+  <rect x="320" y="220" width="560" height="300" fill="#f5f2ec" stroke="#bdb09f" stroke-width="2"/>
+  <rect x="320" y="220" width="560" height="4" fill="#bdb09f"/>
+  <rect x="326" y="226" width="548" height="100" fill="#b5a68f"/>
+  <rect x="480" y="332" width="240" height="184" fill="#fff9f0" stroke="#bdb09f" stroke-width="2"/>
+  <rect x="480" y="332" width="240" height="4" fill="#bdb09f"/>
+  <rect x="496" y="352" width="80" height="140" fill="#e3dccb"/>
+  <rect x="624" y="352" width="80" height="140" fill="#e3dccb"/>
+  <rect x="420" y="520" width="360" height="100" fill="#c9b89f" stroke="#bdb09f" stroke-width="2"/>
+  <rect x="420" y="520" width="360" height="4" fill="#bdb09f"/>
+  <rect x="426" y="526" width="348" height="90" fill="#e3dccb" opacity="0.9"/>
+  <rect x="540" y="540" width="120" height="70" fill="#b5a68f"/>
+  <rect x="300" y="650" width="120" height="44" fill="#d8d2c6" stroke="#bdb09f" stroke-width="2"/>
+  <rect x="780" y="650" width="120" height="44" fill="#d8d2c6" stroke="#bdb09f" stroke-width="2"/>
+  <g fill="#a6b7c4" opacity="0.55">
+    <circle cx="360" cy="560" r="6"/><circle cx="380" cy="568" r="5"/><circle cx="400" cy="562" r="6"/>
+    <circle cx="800" cy="565" r="6"/><circle cx="820" cy="572" r="5"/><circle cx="840" cy="566" r="6"/>
+    <circle cx="540" cy="558" r="5"/><circle cx="660" cy="564" r="6"/>
+  </g>
+  <rect x="460" y="700" width="280" height="4" fill="#b5a68f"/>
+</svg>

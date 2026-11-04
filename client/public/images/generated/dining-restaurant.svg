@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a1a0e"/>
+      <stop offset="100%" stop-color="#1a1008"/>
+    </linearGradient>
+    <radialGradient id="candle" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffd700" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#ffd700" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="table-top" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#5a3a1a"/>
+      <stop offset="50%" stop-color="#7a5a3a"/>
+      <stop offset="100%" stop-color="#5a3a1a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <!-- Wall paneling -->
+  <g fill="#3a2a1a" opacity="0.5">
+    <rect x="0" y="0" width="1920" height="400"/>
+  </g>
+  <g stroke="#4a3a2a" stroke-width="1" opacity="0.3">
+    <line x1="200" y1="0" x2="200" y2="400"/>
+    <line x1="400" y1="0" x2="400" y2="400"/>
+    <line x1="600" y1="0" x2="600" y2="400"/>
+    <line x1="800" y1="0" x2="800" y2="400"/>
+    <line x1="1000" y1="0" x2="1000" y2="400"/>
+    <line x1="1200" y1="0" x2="1200" y2="400"/>
+    <line x1="1400" y1="0" x2="1400" y2="400"/>
+    <line x1="1600" y1="0" x2="1600" y2="400"/>
+  </g>
+  <!-- Floor -->
+  <rect x="0" y="700" width="1920" height="380" fill="#2a1a0e"/>
+  <!-- Tables with warm lighting -->
+  <g>
+    <!-- Table 1 -->
+    <ellipse cx="400" cy="620" rx="160" ry="60" fill="url(#table-top)"/>
+    <circle cx="400" cy="560" r="40" fill="url(#candle)"/>
+    <rect x="396" y="580" width="8" height="30" fill="#e8c878"/>
+    <circle cx="400" cy="578" r="6" fill="#ffd700" opacity="0.8"/>
+    <!-- Plates -->
+    <ellipse cx="320" cy="610" rx="35" ry="14" fill="#f0e8d8" opacity="0.8"/>
+    <ellipse cx="480" cy="610" rx="35" ry="14" fill="#f0e8d8" opacity="0.8"/>
+    <!-- Glasses -->
+    <rect x="350" y="585" width="12" height="30" rx="3" fill="#8ab8c8" opacity="0.5"/>
+    <rect x="440" y="585" width="12" height="30" rx="3" fill="#8ab8c8" opacity="0.5"/>
+    <!-- Table 2 -->
+    <ellipse cx="960" cy="580" rx="180" ry="65" fill="url(#table-top)"/>
+    <circle cx="960" cy="520" r="45" fill="url(#candle)"/>
+    <rect x="956" y="540" width="8" height="30" fill="#e8c878"/>
+    <circle cx="960" cy="538" r="7" fill="#ffd700" opacity="0.8"/>
+    <ellipse cx="860" cy="570" rx="38" ry="15" fill="#f0e8d8" opacity="0.8"/>
+    <ellipse cx="1060" cy="570" rx="38" ry="15" fill="#f0e8d8" opacity="0.8"/>
+    <rect x="910" y="545" width="12" height="30" rx="3" fill="#c87878" opacity="0.5"/>
+    <rect x="1000" y="545" width="12" height="30" rx="3" fill="#c87878" opacity="0.5"/>
+    <!-- Table 3 -->
+    <ellipse cx="1520" cy="640" rx="150" ry="55" fill="url(#table-top)"/>
+    <circle cx="1520" cy="585" r="35" fill="url(#candle)"/>
+    <rect x="1516" y="605" width="8" height="25" fill="#e8c878"/>
+    <circle cx="1520" cy="603" r="5" fill="#ffd700" opacity="0.8"/>
+    <ellipse cx="1440" cy="635" rx="32" ry="13" fill="#f0e8d8" opacity="0.8"/>
+    <ellipse cx="1600" cy="635" rx="32" ry="13" fill="#f0e8d8" opacity="0.8"/>
+  </g>
+  <!-- Ceiling lights -->
+  <g opacity="0.4">
+    <circle cx="300" cy="50" r="80" fill="#ffd700" opacity="0.15"/>
+    <circle cx="700" cy="80" r="90" fill="#ffd700" opacity="0.12"/>
+    <circle cx="1100" cy="60" r="85" fill="#ffd700" opacity="0.14"/>
+    <circle cx="1500" cy="70" r="80" fill="#ffd700" opacity="0.13"/>
+  </g>
+  <!-- Pendant lights -->
+  <g stroke="#8a7a5a" stroke-width="1">
+    <line x1="300" y1="0" x2="300" y2="120"/>
+    <line x1="700" y1="0" x2="700" y2="140"/>
+    <line x1="1100" y1="0" x2="1100" y2="110"/>
+    <line x1="1500" y1="0" x2="1500" y2="130"/>
+  </g>
+  <g fill="#d4b878">
+    <ellipse cx="300" cy="130" rx="30" ry="15"/>
+    <ellipse cx="700" cy="150" rx="35" ry="17"/>
+    <ellipse cx="1100" cy="120" rx="32" ry="16"/>
+    <ellipse cx="1500" cy="140" rx="30" ry="15"/>
+  </g>
+  <!-- Wine shelves backdrop -->
+  <rect x="1680" y="50" width="200" height="350" fill="#3a2a1a" rx="4"/>
+  <g fill="#5a2a2a" opacity="0.6">
+    <rect x="1700" y="80" width="30" height="8" rx="2"/><rect x="1740" y="80" width="30" height="8" rx="2"/><rect x="1780" y="80" width="30" height="8" rx="2"/><rect x="1820" y="80" width="30" height="8" rx="2"/>
+    <rect x="1700" y="120" width="30" height="8" rx="2"/><rect x="1740" y="120" width="30" height="8" rx="2"/><rect x="1780" y="120" width="30" height="8" rx="2"/><rect x="1820" y="120" width="30" height="8" rx="2"/>
+    <rect x="1700" y="160" width="30" height="8" rx="2"/><rect x="1740" y="160" width="30" height="8" rx="2"/><rect x="1780" y="160" width="30" height="8" rx="2"/><rect x="1820" y="160" width="30" height="8" rx="2"/>
+    <rect x="1700" y="200" width="30" height="8" rx="2"/><rect x="1740" y="200" width="30" height="8" rx="2"/><rect x="1780" y="200" width="30" height="8" rx="2"/><rect x="1820" y="200" width="30" height="8" rx="2"/>
+  </g>
+  <!-- Plant accent -->
+  <ellipse cx="100" cy="500" rx="50" ry="70" fill="#2a4a2a" opacity="0.6"/>
+  <rect x="95" y="570" width="10" height="40" fill="#4a3a2a"/>
+  <rect x="80" y="610" width="40" height="35" rx="3" fill="#8a7a5a"/>
+</svg>

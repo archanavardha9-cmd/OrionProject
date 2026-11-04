@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8f0e0"/>
+      <stop offset="100%" stop-color="#e8d8b8"/>
+    </linearGradient>
+    <radialGradient id="warm-light" cx="50%" cy="30%" r="50%">
+      <stop offset="0%" stop-color="#fff8e0" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#e8d8b8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="diya" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8a040"/>
+      <stop offset="100%" stop-color="#c87020"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#warm-light)"/>
+  <!-- Atrium structure -->
+  <rect x="200" y="100" width="1520" height="700" fill="#ede4d0" rx="6"/>
+  <!-- Stage area -->
+  <rect x="600" y="500" width="720" height="200" rx="6" fill="#d4c4a0"/>
+  <rect x="620" y="480" width="680" height="30" rx="3" fill="#c8a96a"/>
+  <!-- Decorative arch -->
+  <path d="M 700 200 Q 960 50 1220 200" fill="none" stroke="#c8a96a" stroke-width="3"/>
+  <path d="M 740 220 Q 960 80 1180 220" fill="none" stroke="#c8a96a" stroke-width="2" opacity="0.5"/>
+  <!-- String lights -->
+  <g>
+    <path d="M 250 150 Q 500 200 750 150 Q 1000 200 1250 150 Q 1500 200 1670 150" fill="none" stroke="#c8a96a" stroke-width="1.5" opacity="0.6"/>
+    <g fill="#ffd700" opacity="0.7">
+      <circle cx="320" cy="165" r="5"/>
+      <circle cx="430" cy="180" r="5"/>
+      <circle cx="550" cy="170" r="5"/>
+      <circle cx="660" cy="160" r="5"/>
+      <circle cx="780" cy="175" r="5"/>
+      <circle cx="890" cy="185" r="5"/>
+      <circle cx="1000" cy="170" r="5"/>
+      <circle cx="1120" cy="160" r="5"/>
+      <circle cx="1230" cy="175" r="5"/>
+      <circle cx="1340" cy="185" r="5"/>
+      <circle cx="1450" cy="170" r="5"/>
+      <circle cx="1560" cy="160" r="5"/>
+    </g>
+    <path d="M 300 220 Q 550 270 800 220 Q 1050 270 1300 220 Q 1550 270 1620 220" fill="none" stroke="#c8a96a" stroke-width="1" opacity="0.4"/>
+    <g fill="#ffd700" opacity="0.5">
+      <circle cx="370" cy="240" r="4"/>
+      <circle cx="500" cy="255" r="4"/>
+      <circle cx="630" cy="240" r="4"/>
+      <circle cx="760" cy="230" r="4"/>
+      <circle cx="890" cy="250" r="4"/>
+      <circle cx="1020" cy="258" r="4"/>
+      <circle cx="1150" cy="240" r="4"/>
+      <circle cx="1280" cy="230" r="4"/>
+      <circle cx="1410" cy="248" r="4"/>
+      <circle cx="1540" cy="240" r="4"/>
+    </g>
+  </g>
+  <!-- Marigold garlands -->
+  <g fill="#e88020" opacity="0.6">
+    <circle cx="250" cy="300" r="8"/><circle cx="268" cy="310" r="8"/><circle cx="250" cy="320" r="8"/><circle cx="268" cy="330" r="8"/><circle cx="250" cy="340" r="8"/>
+    <circle cx="1650" cy="300" r="8"/><circle cx="1668" cy="310" r="8"/><circle cx="1650" cy="320" r="8"/><circle cx="1668" cy="330" r="8"/><circle cx="1650" cy="340" r="8"/>
+  </g>
+  <g fill="#f0a030" opacity="0.5">
+    <circle cx="254" cy="305" r="6"/><circle cx="272" cy="315" r="6"/><circle cx="254" cy="325" r="6"/><circle cx="272" cy="335" r="6"/>
+    <circle cx="1654" cy="305" r="6"/><circle cx="1672" cy="315" r="6"/><circle cx="1654" cy="325" r="6"/><circle cx="1672" cy="335" r="6"/>
+  </g>
+  <!-- Diyas on stage -->
+  <g>
+    <ellipse cx="700" cy="550" rx="15" ry="8" fill="url(#diya)"/>
+    <circle cx="700" cy="540" r="6" fill="#ffd700" opacity="0.6"/>
+    <ellipse cx="850" cy="540" rx="15" ry="8" fill="url(#diya)"/>
+    <circle cx="850" cy="530" r="6" fill="#ffd700" opacity="0.6"/>
+    <ellipse cx="1000" cy="545" rx="15" ry="8" fill="url(#diya)"/>
+    <circle cx="1000" cy="535" r="6" fill="#ffd700" opacity="0.6"/>
+    <ellipse cx="1150" cy="550" rx="15" ry="8" fill="url(#diya)"/>
+    <circle cx="1150" cy="540" r="6" fill="#ffd700" opacity="0.6"/>
+  </g>
+  <!-- People gathering (abstract) -->
+  <g opacity="0.5">
+    <ellipse cx="500" cy="730" rx="20" ry="22" fill="#8a7060"/>
+    <rect x="485" y="752" width="30" height="60" rx="3" fill="#6a4a4a"/>
+    <ellipse cx="560" cy="740" rx="18" ry="20" fill="#9a8070"/>
+    <rect x="547" y="760" width="26" height="55" rx="3" fill="#4a6a6a"/>
+    <ellipse cx="1400" cy="735" rx="19" ry="21" fill="#8a7a60"/>
+    <rect x="1387" y="756" width="26" height="58" rx="3" fill="#5a4a6a"/>
+    <ellipse cx="1460" cy="745" rx="17" ry="19" fill="#9a7a70"/>
+    <rect x="1449" y="764" width="22" height="50" rx="3" fill="#6a5a4a"/>
+  </g>
+  <!-- Rangoli pattern (center floor) -->
+  <circle cx="960" cy="850" r="80" fill="none" stroke="#c8785d" stroke-width="2" opacity="0.4"/>
+  <circle cx="960" cy="850" r="60" fill="none" stroke="#e8a040" stroke-width="2" opacity="0.3"/>
+  <circle cx="960" cy="850" r="40" fill="none" stroke="#c8785d" stroke-width="2" opacity="0.2"/>
+  <!-- Floor -->
+  <rect x="0" y="800" width="1920" height="280" fill="#d4c4a0" opacity="0.5"/>
+  <!-- Banner -->
+  <rect x="750" y="350" width="420" height="60" rx="4" fill="#8a1a1a" opacity="0.8"/>
+  <text x="960" y="388" font-family="Georgia,serif" font-size="22" fill="#fff8e1" text-anchor="middle" letter-spacing="5">CELEBRATIONS</text>
+</svg>

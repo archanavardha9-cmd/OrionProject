@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700" viewBox="0 0 1000 700" role="img" aria-label="Movie night offer">
+  <defs>
+    <linearGradient id="skyOff3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef3f7"/><stop offset="1" stop-color="#dbe4ec"/></linearGradient>
+    <linearGradient id="floorOff3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9e4da"/><stop offset="1" stop-color="#dcd4c4"/></linearGradient>
+  </defs>
+  <rect width="1000" height="700" fill="url(#skyOff3)"/>
+  <rect x="0" y="520" width="1000" height="180" fill="url(#floorOff3)"/>
+  <rect x="0" y="520" width="1000" height="6" fill="#c7bca8"/>
+  <rect x="100" y="100" width="800" height="410" fill="#f5f2ec" stroke="#bdb09f" stroke-width="2"/>
+  <rect x="100" y="100" width="800" height="4" fill="#bdb09f"/>
+  <rect x="100" y="510" width="800" height="4" fill="#bdb09f"/>
+  <rect x="160" y="140" width="170" height="360" fill="#e3dccb" stroke="#bdb09f" stroke-width="2"/>
+  <rect x="160" y="140" width="170" height="4" fill="#bdb09f"/>
+  <rect x="166" y="146" width="158" height="110" fill="#6b7a8a"/>
+  <rect x="180" y="262" width="50" height="238" fill="#fff9f0" stroke="#bdb09f" stroke-width="2"/>
+  <rect x="670" y="140" width="170" height="360" fill="#e3dccb" stroke="#bdb09f" stroke-width="2"/>
+  <rect x="670" y="140" width="170" height="4" fill="#bdb09f"/>
+  <rect x="676" y="146" width="158" height="110" fill="#6b7a8a"/>
+  <rect x="690" y="262" width="50" height="238" fill="#fff9f0" stroke="#bdb09f" stroke-width="2"/>
+  <rect x="350" y="170" width="300" height="40" fill="#8a9bb0"/>
+  <rect x="350" y="170" width="300" height="4" fill="#bdb09f"/>
+  <rect x="356" y="176" width="288" height="28" fill="#b5a68f"/>
+  <rect x="380" y="560" width="240" height="14" fill="#b5a68f"/>
+  <g fill="#9aa8b4" opacity="0.5">
+    <circle cx="260" cy="480" r="6"/><circle cx="740" cy="485" r="6"/>
+  </g>
+</svg>

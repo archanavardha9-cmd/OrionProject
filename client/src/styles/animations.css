@@ -1,0 +1,63 @@
+@keyframes routeEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes scrollPulse {
+  50% {
+    transform: scaleY(0.55);
+    transform-origin: top;
+    opacity: 0.5;
+  }
+}
+
+@keyframes ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes objectFloat {
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes ringDrift {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.route-enter {
+  animation: routeEnter 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.loader-orbit {
+  width: 21px;
+  height: 21px;
+  border: 1px solid #b69a67;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #879777;
+  box-shadow: 0 0 0 4px rgba(135, 151, 119, 0.15);
+}
