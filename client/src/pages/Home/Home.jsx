@@ -105,11 +105,10 @@ export default function HomePage() {
               <span className="eyebrow-line" />
               THE PREMIER LIFESTYLE DESTINATION
             </p>
-            <h1>
-              <span>More Than Shopping.</span>
-              <br />
-              <em>A World of Experiences.</em>
-            </h1>
+<h1>
+  <span>More Than Shopping.</span>
+  <em>A World of Experiences.</em>
+</h1>
             <p>
               Welcome to Orion Mall Gorakhpur — where architectural grandeur meets premier shopping,
               exquisite dining, and world-class entertainment across four magnificent levels.

@@ -4,123 +4,191 @@ import { Suspense, useRef } from 'react'
 import { useReducedMotion } from 'framer-motion'
 import * as THREE from 'three'
 
-function Pavilion() {
+// ── Premium realistic mall interior visual for the hero section ──
+// Marble floors, glass balustrades, brass handrails, warm architectural lighting,
+// slow cinematic camera movement. No cartoon colours or low-poly styling.
+
+const GOLD = '#c8a96a'
+const MARBLE = '#f2efe6'
+const STONE = '#d8d2c4'
+const GLASS_TINT = '#eef4f8'
+const WARM_WHITE = '#fff7e6'
+
+function Column({ x, z, height = 4.6 }) {
+  return (
+    <group position={[x, height / 2, z]}>
+      <mesh castShadow receiveShadow>
+        <cylinderGeometry args={[0.5, 0.55, height, 32]} />
+        <meshStandardMaterial color={STONE} roughness={0.25} metalness={0.05} />
+      </mesh>
+      <mesh position={[0, height / 2 + 0.08, 0]}>
+        <cylinderGeometry args={[0.62, 0.68, 0.3, 32]} />
+        <meshStandardMaterial color={GOLD} metalness={0.85} roughness={0.15} />
+      </mesh>
+      <mesh position={[0, -height / 2 - 0.08, 0]}>
+        <cylinderGeometry args={[0.62, 0.68, 0.3, 32]} />
+        <meshStandardMaterial color={GOLD} metalness={0.85} roughness={0.15} />
+      </mesh>
+    </group>
+  )
+}
+
+function GlassPanel({ x, y, z, rotationY, width, height: panelHeight, depth = 0.08 }) {
+  return (
+    <mesh position={[x, y, z]} rotation={[0, rotationY, 0]} castShadow receiveShadow>
+      <boxGeometry args={[width, panelHeight, depth]} />
+      <meshPhysicalMaterial
+        color={GLASS_TINT}
+        transmission={0.92}
+        roughness={0.04}
+        metalness={0.08}
+        transparent
+        opacity={0.75}
+        ior={1.45}
+      />
+    </mesh>
+  )
+}
+
+function Handrail({ x, z, rotationY, length }) {
+  return (
+    <group position={[x, 1.05, z]} rotation={[0, rotationY, 0]}>
+      <mesh>
+        <cylinderGeometry args={[0.035, 0.035, length, 16]} />
+        <meshStandardMaterial color={GOLD} metalness={0.9} roughness={0.1} />
+      </mesh>
+      <mesh position={[0, 0, length / 2]}>
+        <cylinderGeometry args={[0.06, 0.06, 0.1, 16]} />
+        <meshStandardMaterial color={GOLD} metalness={0.9} roughness={0.1} />
+      </mesh>
+      <mesh position={[0, 0, -length / 2]}>
+        <cylinderGeometry args={[0.06, 0.06, 0.1, 16]} />
+        <meshStandardMaterial color={GOLD} metalness={0.9} roughness={0.1} />
+      </mesh>
+    </group>
+  )
+}
+
+function StorefrontColumn({ x, z, side = 1 }) {
+  return (
+    <group position={[side * x, 2.3, z]}>
+      <mesh castShadow receiveShadow>
+        <boxGeometry args={[0.12, 4.6, 0.12]} />
+        <meshStandardMaterial color={STONE} roughness={0.3} metalness={0.05} />
+      </mesh>
+      <mesh position={[0, 2.3, 0]}>
+        <boxGeometry args={[0.18, 0.18, 0.18]} />
+        <meshStandardMaterial color={GOLD} metalness={0.85} roughness={0.15} />
+      </mesh>
+    </group>
+  )
+}
+
+function MallInterior() {
   const architecture = useRef(null)
   const reduceMotion = useReducedMotion()
-  const trees = [-5.2, 5.2]
+
+  // Slow cinematic camera orbit around the mall interior
   useFrame(({ clock, camera }) => {
+    if (reduceMotion.current) return
     const time = clock.getElapsedTime()
-    if (architecture.current) architecture.current.rotation.y = reduceMotion ? 0 : Math.sin(time * 0.12) * 0.025
-    camera.position.set(reduceMotion ? 11.4 : 11.4 + Math.sin(time * 0.12) * 0.22, 7.6, 16.8)
-    camera.lookAt(0, 1.8, 0)
+    const radius = 18
+    const height = 7.5
+    const speed = 0.08
+    camera.position.set(
+      Math.sin(time * speed) * radius,
+      height + Math.cos(time * speed * 0.5) * 0.6,
+      Math.cos(time * speed) * radius + 2
+    )
+    camera.lookAt(0, 2.2, 0)
+    if (architecture.current) {
+      architecture.current.rotation.y = Math.sin(time * 0.06) * 0.015
+    }
   })
 
   return (
     <group ref={architecture}>
-      <mesh position={[0, -0.3, 0]} receiveShadow>
-        <boxGeometry args={[15, 0.3, 9]} />
-        <meshStandardMaterial color="#c9bda9" roughness={0.42} />
+      {/* Marble floor */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[40, 40]} />
+        <meshStandardMaterial color={MARBLE} roughness={0.18} metalness={0.08} />
       </mesh>
-      <mesh position={[0, 1.95, -2.35]} castShadow receiveShadow>
-        <boxGeometry args={[10.8, 4.3, 3.2]} />
-        <meshStandardMaterial color="#dfd5c6" roughness={0.48} />
+
+      {/* Central atrium opening */}
+      <mesh position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry args={[6, 64]} />
+        <meshStandardMaterial color="#e8e3d8" roughness={0.4} />
       </mesh>
-      <mesh position={[-5.65, 1.9, -1.7]} castShadow receiveShadow>
-        <boxGeometry args={[2.1, 3.95, 4.2]} />
-        <meshStandardMaterial color="#e9b9a2" roughness={0.38} />
-      </mesh>
-      <mesh position={[5.65, 1.9, -1.7]} castShadow receiveShadow>
-        <boxGeometry args={[2.1, 3.95, 4.2]} />
-        <meshStandardMaterial color="#c9b8ed" roughness={0.38} />
-      </mesh>
-      <mesh position={[0, 2.08, -0.7]}>
-        <boxGeometry args={[8.6, 3.65, 0.14]} />
-        <meshPhysicalMaterial color="#71958e" roughness={0.14} metalness={0.12} transparent opacity={0.72} />
-      </mesh>
-      <mesh position={[0, 0.97, -0.56]}>
-        <boxGeometry args={[2.05, 2.12, 0.12]} />
-        <meshPhysicalMaterial color="#b8dccb" roughness={0.13} metalness={0.1} transparent opacity={0.58} />
-      </mesh>
-      <mesh position={[0, 3.78, -0.56]}>
-        <boxGeometry args={[8.85, 0.12, 0.22]} />
-        <meshStandardMaterial color="#f18b78" emissive="#f18b78" emissiveIntensity={0.48} />
-      </mesh>
-      {Array.from({ length: 7 }, (_, index) => (
-        <mesh key={`mullion-${index}`} position={[-3.6 + index * 1.2, 2.07, -0.6]}>
-          <boxGeometry args={[0.055, 3.58, 0.06]} />
-          <meshStandardMaterial color="#f4efe4" metalness={0.28} roughness={0.35} />
-        </mesh>
+
+      {/* Structural columns around the perimeter */}
+      {[-12, -6, 0, 6, 12].map((z) => (
+        <>
+          <Column key={`col-l-${z}`} x={-14} z={z} />
+          <Column key={`col-r-${z}`} x={14} z={z} />
+        </>
       ))}
-      {[-5.3, 5.3].map((x, index) => (
-        <group key={`wing-glass-${x}`}>
-          <mesh position={[x, 1.98, 0.43]}>
-            <boxGeometry args={[1.45, 3.4, 0.08]} />
-            <meshPhysicalMaterial color={index ? '#c7b8f1' : '#f6c8aa'} roughness={0.16} metalness={0.13} transparent opacity={0.48} />
-          </mesh>
-          {[-0.36, 0.36].map((offset) => (
-            <mesh key={offset} position={[x + offset, 1.98, 0.49]}>
-              <boxGeometry args={[0.035, 3.34, 0.03]} />
-              <meshStandardMaterial color="#fff8ed" metalness={0.35} roughness={0.24} />
-            </mesh>
-          ))}
+
+      {/* Glass balustrade around atrium */}
+      {[0, Math.PI / 2, Math.PI, (3 * Math.PI) / 2].map((angle, i) => (
+        <group key={`balustrade-${i}`} position={[0, 0, 0]} rotation={[0, angle, 0]}>
+          <GlassPanel x={7} y={2} z={-3} rotationY={0} width={13} height={3.2} />
+          <Handrail x={7} z={-3} rotationY={0} length={13} />
         </group>
       ))}
-      <mesh position={[0, 4.23, -2.3]} castShadow>
-        <boxGeometry args={[11.6, 0.24, 3.8]} />
-        <meshStandardMaterial color="#b9a98e" roughness={0.34} />
-      </mesh>
-      <mesh position={[0, 4.36, -0.55]}>
-        <boxGeometry args={[9.9, 0.08, 2.6]} />
-        <meshStandardMaterial color="#d3b16f" metalness={0.42} roughness={0.27} emissive="#d3b16f" emissiveIntensity={0.22} />
-      </mesh>
-      <mesh position={[0, 2.85, 0.28]} castShadow>
-        <boxGeometry args={[7.4, 0.25, 2.15]} />
-        <meshStandardMaterial color="#e8dfd0" roughness={0.26} />
-      </mesh>
-      {[-3.15, 3.15].map((x) => (
-        <mesh key={`column-${x}`} position={[x, 1.55, 0.1]} castShadow>
-          <cylinderGeometry args={[0.22, 0.28, 3.1, 24]} />
-          <meshStandardMaterial color="#f4efe5" roughness={0.32} />
-        </mesh>
+
+      {/* Storefront columns along the sides */}
+      {[-9, -3, 3, 9].map((z) => (
+        <>
+          <StorefrontColumn key={`store-l-${z}`} x={13.5} z={z} side={1} />
+          <StorefrontColumn key={`store-r-${z}`} x={13.5} z={z} side={-1} />
+        </>
       ))}
-      {Array.from({ length: 10 }, (_, index) => (
-        <mesh key={`step-${index}`} position={[0, -0.12 + index * 0.035, 2.15 + index * 0.34]} receiveShadow>
-          <boxGeometry args={[6.8 - index * 0.38, 0.12, 0.36]} />
-          <meshStandardMaterial color={index % 2 ? '#cabeaa' : '#ded4c4'} roughness={0.54} />
+
+      {/* Central escalator */}
+      <group position={[0, 1.2, 8]} rotation={[0.3, 0, 0]}>
+        <mesh castShadow>
+          <boxGeometry args={[1.2, 0.3, 5.2]} />
+          <meshStandardMaterial color="#302d28" metalness={0.8} roughness={0.25} />
         </mesh>
-      ))}
-      <mesh position={[0, -0.05, 6.2]} rotation={[-Math.PI / 2, 0, 0]}>
-        <circleGeometry args={[2.9, 48]} />
-        <meshPhysicalMaterial color="#a8d5f2" roughness={0.18} metalness={0.14} transparent opacity={0.45} />
-      </mesh>
-      <mesh position={[0, 0.015, 6.2]} rotation={[-Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[2.95, 3.04, 48]} />
-        <meshStandardMaterial color="#fff5df" metalness={0.42} roughness={0.24} />
-      </mesh>
-      {trees.map((x) => (
-        <group key={`tree-${x}`} position={[x, 0, 1.8]}>
-          <mesh position={[0, 0.28, 0]} receiveShadow>
-            <cylinderGeometry args={[0.95, 1.15, 0.56, 32]} />
-            <meshStandardMaterial color="#b9aa91" roughness={0.76} />
+        <mesh position={[0, 0, 0]} rotation={[0.3, 0, 0]}>
+          <boxGeometry args={[1.0, 0.7, 5.0]} />
+          <meshPhysicalMaterial color="#e8f3fa" transmission={0.85} roughness={0.1} transparent opacity={0.7} />
+        </mesh>
+        <mesh position={[0, 0.8, 0]} rotation={[0.3, 0, 0]}>
+          <cylinderGeometry args={[0.03, 0.03, 5.0, 8]} rotation={[Math.PI / 2, 0, 0]} />
+          <meshStandardMaterial color="#1a1918" roughness={0.4} />
+        </mesh>
+        {Array.from({ length: 8 }, (_, i) => (
+          <mesh key={`step-${i}`} position={[0, 0.3 + i * 0.12, -1.6 + i * 0.4]} rotation={[0.3, 0, 0]}>
+            <boxGeometry args={[0.9, 0.08, 0.3]} />
+            <meshStandardMaterial color={i % 2 === 0 ? '#aaa49a' : '#77736b'} roughness={0.45} />
           </mesh>
-          <mesh position={[0, 1.15, 0]} castShadow>
-            <cylinderGeometry args={[0.08, 0.11, 1.4, 12]} />
-            <meshStandardMaterial color="#89785f" />
+        ))}
+      </group>
+
+      {/* Warm recessed ceiling lights */}
+      {[-8, -4, 0, 4, 8].map((z) => (
+        <group key={`light-${z}`} position={[0, 4.55, z]}>
+          <mesh>
+            <cylinderGeometry args={[0.35, 0.35, 0.12, 16]} />
+            <meshStandardMaterial color="#2d2a26" metalness={0.7} roughness={0.2} />
           </mesh>
-          {[0, 1, 2, 3].map((leaf) => (
-            <mesh key={leaf} position={[Math.cos(leaf * 1.7) * 0.35, 1.85 + (leaf % 2) * 0.25, Math.sin(leaf * 1.7) * 0.35]} castShadow>
-              <icosahedronGeometry args={[0.62, 1]} />
-              <meshStandardMaterial color={leaf % 2 ? '#77856e' : '#899478'} roughness={0.72} />
-            </mesh>
-          ))}
+          <pointLight position={[0, 0, -0.06]} color={WARM_WHITE} intensity={1.2} distance={5} decay={2} />
         </group>
       ))}
-      <mesh position={[0, 0.03, -5]}>
-        <boxGeometry args={[22, 0.08, 0.08]} />
-        <meshStandardMaterial color="#c6a66f" emissive="#c6a66f" emissiveIntensity={0.5} />
+
+      {/* Ambient glow panels */}
+      <mesh position={[0, 4.4, -12]}>
+        <planeGeometry args={[12, 2]} />
+        <meshStandardMaterial color={WARM_WHITE} emissive={WARM_WHITE} emissiveIntensity={0.6} roughness={0.3} />
       </mesh>
-      <pointLight position={[-5.3, 2.5, 1.2]} intensity={0.75} color="#f6c8aa" />
-      <pointLight position={[5.2, 2.8, 0.7]} intensity={0.72} color="#c7b8f1" />
+      <mesh position={[0, 4.4, 12]} rotation={[Math.PI, 0, 0]}>
+        <planeGeometry args={[12, 2]} />
+        <meshStandardMaterial color={WARM_WHITE} emissive={WARM_WHITE} emissiveIntensity={0.6} roughness={0.3} />
+      </mesh>
+
+      <pointLight position={[-10, 6, -5]} color="#f4e8c9" intensity={0.8} distance={15} />
+      <pointLight position={[10, 6, -5]} color="#f4e8c9" intensity={0.8} distance={15} />
     </group>
   )
 }
@@ -129,24 +197,28 @@ export default function HeroScene({ compact = false }) {
   return (
     <Canvas
       className={compact ? 'hero-canvas hero-canvas-compact' : 'hero-canvas'}
-      aria-label="Animated architectural model of a contemporary mall entrance"
-      dpr={[1, 1.35]}
-      camera={{ position: [11.4, 7.6, 16.8], fov: 42, near: 0.1, far: 100 }}
-      gl={{ antialias: true, alpha: false, powerPreference: 'low-power' }}
+      aria-label="Premium realistic 3D shopping mall interior architectural visualization"
+      dpr={[1, 1.5]}
+      camera={{ position: [0, 7.5, 20], fov: 45, near: 0.1, far: 100 }}
+      gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
+      shadows
       onCreated={({ gl, camera }) => {
         gl.toneMapping = THREE.ACESFilmicToneMapping
-        gl.toneMappingExposure = 0.94
-        camera.lookAt(0, 1.8, 0)
+        gl.toneMappingExposure = 1.0
+        camera.lookAt(0, 2.2, 0)
       }}
-      fallback={<div className="hero-3d-fallback" aria-label="Architectural entrance illustration" />}
+      fallback={<div className="hero-3d-fallback" aria-label="Architectural mall interior" />}
     >
-      <color attach="background" args={['#e8e2d6']} />
-      <fog attach="fog" args={['#e8e2d6', 20, 42]} />
-      <ambientLight intensity={0.45} color="#fff4df" />
-      <hemisphereLight args={['#fff8e9', '#89765f', 0.48]} />
-      <directionalLight position={[8, 12, 9]} intensity={1.7} castShadow shadow-mapSize={[1024, 1024]} />
-      <pointLight position={[-2, 5, 1]} intensity={0.65} color="#f4d6a0" />
-      <Suspense fallback={null}><Pavilion /><AdaptiveDpr pixelated /></Suspense>
+      <color attach="background" args={['#f7f4ec']} />
+      <fog attach="fog" args={['#f7f4ec', 15, 45]} />
+      <ambientLight intensity={0.5} color="#fff9f0" />
+      <hemisphereLight args={['#fff8e9', '#b9aa91', 0.4]} />
+      <directionalLight position={[10, 15, 8]} intensity={1.2} color="#fffdf4" castShadow shadow-mapSize={[2048, 2048]} />
+      <directionalLight position={[-8, 10, -12]} intensity={0.6} color="#f3e9d2" castShadow />
+      <Suspense fallback={null}>
+        <MallInterior />
+        <AdaptiveDpr pixelated />
+      </Suspense>
     </Canvas>
   )
 }

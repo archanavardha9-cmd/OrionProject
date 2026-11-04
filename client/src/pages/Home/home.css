@@ -35,14 +35,14 @@
   align-items: center;
   padding-left: clamp(24px, 7vw, 96px);
   padding-right: clamp(24px, 7vw, 96px);
-  background: #e8e2d6;
+  background: #f7f4ec;
   isolation: isolate;
 }
 
 .home-hero-visual {
   position: absolute;
   z-index: 1;
-  inset: 0 0 0 24%;
+  inset: 0 0 0 30%;
 }
 
 .home-hero-visual canvas {
@@ -58,11 +58,11 @@
   inset: 0;
   background:
     linear-gradient(90deg,
-      #e8e2d6 0%,
-      rgba(232, 226, 214, 0.98) 26%,
-      rgba(232, 226, 214, 0.88) 42%,
-      rgba(232, 226, 214, 0.35) 75%,
-      rgba(232, 226, 214, 0.1) 100%),
+      #f7f4ec 0%,
+      rgba(247, 244, 236, 0.98) 26%,
+      rgba(247, 244, 236, 0.88) 42%,
+      rgba(247, 244, 236, 0.35) 75%,
+      rgba(247, 244, 236, 0.1) 100%),
     linear-gradient(0deg,
       rgba(218, 210, 195, 0.6) 0%,
       transparent 35%);
@@ -71,9 +71,9 @@
 .hero-copy {
   position: relative;
   z-index: 3;
-  width: 100%;
-  max-width: 680px;
-  padding-bottom: 40px;
+  width: min(620px, 55vw);
+  padding-bottom: 32px;
+  margin-right: 2vw;
 }
 
 .home-hero .eyebrow {
@@ -96,11 +96,11 @@
 }
 
 .home-hero h1 {
-  margin: 0;
+  margin: 0 0 6px;
   font-size: clamp(2.8rem, 6vw, 5.2rem);
   font-weight: 400;
   letter-spacing: -0.05em;
-  line-height: 1.02;
+  line-height: 1.12;
   color: #24221e;
 }
 
@@ -119,10 +119,10 @@
 
 .home-hero .hero-copy > p:not(.eyebrow) {
   max-width: 520px;
-  margin: 24px 0 34px;
+  margin: 16px 0 30px;
   color: #5f5d54;
   font-size: clamp(0.95rem, 1.2vw, 1.1rem);
-  line-height: 1.75;
+  line-height: 1.7;
 }
 
 .hero-actions {
