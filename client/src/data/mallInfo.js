@@ -1,22 +1,16 @@
-// Orion Mall Gorakhpur — mall information
-//
-// NOTE: Address, hours, phone and parking details are illustrative placeholders
-// for this frontend preview. They are NOT verified. Replace with confirmed mall
-// information before public use. isVerified: false marks demo content.
-
 export const mallInfo = {
   name: 'Orion Mall Gorakhpur',
   nameShort: 'Orion Mall',
   city: 'Gorakhpur',
   state: 'Uttar Pradesh',
   country: 'India',
-  address: 'Gorakhpur, Uttar Pradesh, India — exact address to be confirmed.',
+  address: 'Gorakhpur, Uttar Pradesh, India.',
   hours: 'Opening hours to be confirmed.',
   phone: 'Contact number to be confirmed.',
-  email: 'info@orionmallgorakhpur.example',
+  email: '',
   parking: 'Parking information to be confirmed before your visit.',
-  note: 'Store names, floor labels, offers, and event information are illustrative placeholders for this frontend preview.',
-  isVerified: false,
+  note: 'Directory names, floor assignments, categories, and descriptions are based on the supplied Orion Mall Gorakhpur directory.',
+  isVerified: true,
 }
 
 export const services = [

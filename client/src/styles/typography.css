@@ -1,0 +1,78 @@
+/* =============================================================================
+   Typography System – unified across the Orion Mall website
+   Based on the first section after the Hero on the Home page.
+   All font families, sizes, weights, line‑heights, letter‑spacing and
+   responsive scaling are defined here as CSS custom properties.
+   Components should use the variables instead of hard‑coded values.
+ =========================================================================== */
+
+:root {
+  /* Font families */
+  --font-sans: var(--sans, 'DM Sans', 'Segoe UI', sans-serif);
+  --font-serif: var(--serif, 'Playfair Display', Georgia, serif);
+
+  /* Base sizing – fluid using clamp for responsiveness */
+  --font-size-base: clamp(0.875rem, 0.5vw + 0.8rem, 1rem);   /* ~14‑16px */
+  --font-size-sm:   clamp(0.75rem, 0.5vw + 0.7rem, 0.875rem); /* ~12‑14px */
+  --font-size-lg:   clamp(1rem, 0.6vw + 1rem, 1.125rem);     /* ~16‑18px */
+
+  /* Heading scale */
+  --font-size-h1: clamp(2.8rem, 6vw, 5.2rem);   /* matches hero h1 */
+  --font-size-h2: clamp(1.75rem, 3vw, 2.5rem);
+  --font-size-h3: clamp(1.5rem, 2.5vw, 2rem);
+  --font-size-h4: clamp(1.25rem, 2vw, 1.75rem);
+  --font-size-h5: clamp(1.125rem, 1.5vw, 1.5rem);
+  --font-size-h6: clamp(1rem, 1.2vw, 1.25rem);
+
+  /* Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line heights */
+  --line-height-base: 1.6;
+  --line-height-heading: 1.2;
+
+  /* Letter spacing */
+  --letter-spacing-normal: normal;
+  --letter-spacing-wide: 0.02em;
+  --letter-spacing-wider: 0.04em;
+  /* Extra small font size for captions, eyebrow, etc. */
+  --font-size-xs: clamp(0.625rem, 0.4vw + 0.6rem, 0.75rem);
+}
+
+/* Global reset for text elements */
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-base);
+  color: var(--ink);
+}
+
+p, li {
+  margin: 0 0 1em;
+  line-height: var(--line-height-base);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 0.5em;
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-heading);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+h1 { font-size: var(--font-size-h1); }
+h2 { font-size: var(--font-size-h2); }
+h3 { font-size: var(--font-size-h3); }
+h4 { font-size: var(--font-size-h4); }
+h5 { font-size: var(--font-size-h5); }
+h6 { font-size: var(--font-size-h6); }
+
+/* Small utility classes for specific uses */
+.text-sm { font-size: var(--font-size-sm); }
+.text-lg { font-size: var(--font-size-lg); }
+.text-serif { font-family: var(--font-serif); }
+.text-sans { font-family: var(--font-sans); }

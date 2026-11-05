@@ -1,11 +1,8 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Search, ArrowUpRight, Coffee, Utensils } from 'lucide-react'
-import { diningCategories, searchDining } from '../../data/dining'
-import { floors, floorLabel } from '../../data/floors'
-import { mallInfo } from '../../data/mallInfo'
-import ImageWithFallback from '../../components/common/ImageWithFallback'
-import Button from '../../components/common/Button'
+import { ArrowUpRight, Search, Utensils } from 'lucide-react'
+import { dining, diningCategories, searchDining } from '../../data/dining'
+import { floors, floorLabel, floorName } from '../../data/floors'
 import PageTransition from '../../components/layout/PageTransition'
 
 export default function DiningPage() {
@@ -13,114 +10,77 @@ export default function DiningPage() {
   const [category, setCategory] = useState('All')
   const [floor, setFloor] = useState('All')
 
-  const visible = useMemo(() => {
-    return searchDining(query).filter((s) => {
-      if (category !== 'All' && s.category !== category) return false
-      if (floor !== 'All' && Number(s.floor) !== Number(floor)) return false
-      return true
-    })
-  }, [query, category, floor])
+  const visible = useMemo(
+    () => searchDining(query).filter((store) =>
+      (category === 'All' || store.category === category)
+      && (floor === 'All' || store.floor === Number(floor))
+    ),
+    [category, floor, query]
+  )
 
   return (
     <PageTransition>
       <div className="dining-page">
         <section className="destination-hero dining-destination">
           <div className="destination-copy">
-            <p className="eyebrow"><span className="eyebrow-line" />GOOD FOOD, GOOD COMPANY</p>
-            <h1>A table for<br /><em>every mood.</em></h1>
-            <p>Slow coffee, long lunches, a little something sweet. Find the flavour that feels right today.</p>
+            <p className="eyebrow"><span className="eyebrow-line" />A GOOD REASON TO GATHER</p>
+            <h1>Make room<br /><em>for something good.</em></h1>
+            <p>Quick bites on F3, cafes on F4, and a lounge above it all. Find your table across three dining levels.</p>
             <div className="destination-meta">
-              <span><Coffee size={15} /> CAF&eacute;S &amp; COFFEE</span>
-              <span><Utensils size={15} /> RESTAURANTS</span>
+              <span><Utensils size={16} /> {dining.length} DINING DESTINATIONS</span>
+              <span>F3 / F4 / F5</span>
             </div>
           </div>
           <div className="dining-hero-art">
-            <ImageWithFallback
-              src="/images/dining/restaurant.webp"
-              alt="Dining destinations at Orion Mall"
-              className="dining-hero-image"
-            />
-            <span className="dining-hero-tag">COME AS YOU ARE / STAY A LITTLE</span>
+            <img src="/images/dining/foodcourt.webp" alt="The central atrium at Orion Mall" className="dining-hero-image" />
+            <span className="dining-hero-tag">QUICK BITES TO LINGER-LONGER MEALS</span>
           </div>
         </section>
 
-        <section className="destination-content">
+        <section className="destination-content" aria-label="Dining directory">
           <div className="section-title">
             <div>
-              <p className="eyebrow">SOMETHING GOOD IS WAITING</p>
-              <h2>Pull up<br /><em>a chair.</em></h2>
+              <p className="eyebrow">THE DINING DIRECTORY</p>
+              <h2>Find your<br /><em>kind of table.</em></h2>
             </div>
-            <p className="section-blurb">Explore our dining destinations, from a quick pick-me-up to a meal worth making time for.</p>
+            <p className="section-blurb">Every venue here comes from the same floor-by-floor directory.</p>
           </div>
           <div className="directory-toolbar">
-            <div className="directory-search">
-              <Search size={18} />
-              <input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search a restaurant or caf&eacute;"
-                aria-label="Search dining"
-              />
-            </div>
-            <label className="directory-floor">
-              FLOOR
-              <select value={floor} onChange={(e) => setFloor(e.target.value)}>
-                <option value="All">All levels</option>
-                {floors.map((item) => (
-                  <option value={item.number} key={item.number}>
-                    {item.label} &middot; {item.name}
-                  </option>
+            <label className="directory-search">
+              <Search size={18} aria-hidden="true" />
+              <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search dining destinations" aria-label="Search dining" />
+            </label>
+            <label className="directory-filter">
+              <span>FLOOR</span>
+              <select value={floor} onChange={(event) => setFloor(event.target.value)}>
+                <option value="All">All dining floors</option>
+                {floors.filter((item) => dining.some((store) => store.floor === item.number)).map((item) => (
+                  <option value={item.number} key={item.id}>{item.label} · {item.name}</option>
                 ))}
               </select>
             </label>
           </div>
           <div className="directory-categories">
             {diningCategories.map((item) => (
-              <button className={category === item ? 'active' : ''} key={item} onClick={() => setCategory(item)}>
+              <button type="button" className={category === item ? 'active' : ''} key={item} onClick={() => setCategory(item)}>
                 {item}
               </button>
             ))}
           </div>
-          <div className="directory-result-count">
-            <span>VENUES / {String(visible.length).padStart(2, '0')}</span>
-            <span>{floor === 'All' ? 'ALL FLOORS' : `${floorLabel(floor)} FLOOR`}</span>
-          </div>
-          <div className="dining-venue-list">
-            {visible.map((venue, index) => (
-              <Link key={venue.id} to={`/stores/${venue.slug}`} className="dining-venue">
-                <span className="dining-venue-count">0{index + 1}</span>
-                <span className="venue-art">
-                  <ImageWithFallback
-                    src={venue.image}
-                    alt={venue.name}
-                    className="venue-art-image"
-                  />
-                </span>
-                <span className="dining-venue-name">
-                  {venue.name}
-                  <small>{venue.category} &middot; {floorLabel(venue.floor)} &middot; {venue.unit}</small>
-                </span>
+          <div className="dining-venue-grid">
+            {visible.map((store, index) => (
+              <Link key={store.id} to={`/stores/${store.slug}`} className={`dining-venue dining-venue-${index % 3}`}>
+                <span className="dining-venue-count">{floorLabel(store.floor)}</span>
+                <span className="dining-venue-type">{store.category}</span>
+                <strong>{store.brand}</strong>
+                <p>{store.description}</p>
+                <small>{floorName(store.floor)}</small>
                 <span className="round-arrow"><ArrowUpRight size={17} /></span>
               </Link>
             ))}
-            {visible.length === 0 && (
-              <div className="empty-directory">
-                <Search size={28} />
-                <p>No dining venues match your filters.</p>
-                <Button variant="ghost" onClick={() => { setQuery(''); setCategory('All'); setFloor('All') }}>
-                  Clear filters
-                </Button>
-              </div>
-            )}
+            {visible.length === 0 && <p className="empty-directory">No dining destinations match those filters.</p>}
           </div>
-          <p className="page-disclaimer">{mallInfo.note}</p>
         </section>
-
-        <div className="dining-note-strip">
-          <span>&lowast;</span>
-          <p>Good food is better together.</p>
-          <Link to="/visit">Plan your visit <ArrowUpRight size={14} /></Link>
-        </div>
       </div>
     </PageTransition>
   )

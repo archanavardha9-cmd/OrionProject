@@ -5,6 +5,7 @@ import Footer from './components/layout/Footer'
 import './App.css'
 
 const AdminPage = lazy(() => import('./AdminPage'))
+const ExplorerPage = lazy(() => import('./features/mall-explorer/Explorer'))
 
 import HomePage from './pages/Home/Home'
 import StoresPage from './pages/Stores/Stores'
@@ -16,7 +17,7 @@ import OffersPage from './pages/Offers/Offers'
 import EntertainmentPage from './pages/Entertainment/Entertainment'
 import VisitPage from './pages/Visit/Visit'
 import NotFoundPage from './pages/NotFound/NotFound'
-import ExplorerPage from './features/mall-explorer/Explorer'
+import './styles/redesign.css'
 
 const pageTitles = {
   '/': 'Orion Mall Gorakhpur — More Than Shopping',
@@ -49,20 +50,22 @@ function RoutedExperience() {
     <>
       {!isAdmin && <Navbar />}
       <main className={location.pathname === '/explore' ? 'route-main route-main-explore' : 'route-main'}>
-        <Routes location={location}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/explore" element={<ExplorerPage />} />
-          <Route path="/stores" element={<StoresPage />} />
-          <Route path="/stores/:slug" element={<StoreDetailsPage />} />
-          <Route path="/dining" element={<DiningPage />} />
-          <Route path="/events" element={<EventsPage />} />
-          <Route path="/events/:slug" element={<EventDetailsPage />} />
-          <Route path="/offers" element={<OffersPage />} />
-          <Route path="/entertainment" element={<EntertainmentPage />} />
-          <Route path="/visit" element={<VisitPage />} />
-          <Route path="/admin/*" element={<Suspense fallback={<div className="scene-loader admin-loader">Opening administration</div>}><AdminPage /></Suspense>} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+        <Suspense fallback={<div className="route-loading" role="status">Opening the mall experience</div>}>
+          <Routes location={location}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/explore" element={<ExplorerPage />} />
+            <Route path="/stores" element={<StoresPage />} />
+            <Route path="/stores/:slug" element={<StoreDetailsPage />} />
+            <Route path="/dining" element={<DiningPage />} />
+            <Route path="/events" element={<EventsPage />} />
+            <Route path="/events/:slug" element={<EventDetailsPage />} />
+            <Route path="/offers" element={<OffersPage />} />
+            <Route path="/entertainment" element={<EntertainmentPage />} />
+            <Route path="/visit" element={<VisitPage />} />
+            <Route path="/admin/*" element={<Suspense fallback={<div className="scene-loader admin-loader">Opening administration</div>}><AdminPage /></Suspense>} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
       </main>
       {!isAdmin && <Footer />}
     </>

@@ -1,5 +1,6 @@
 import { memo } from 'react'
-import { Text } from '@react-three/drei'
+import { Billboard, Text } from '@react-three/drei'
+import * as THREE from 'three'
 
 // Category colour palettes for realistic retail styling
 const CATEGORY_PALETTES = {
@@ -229,10 +230,21 @@ function StorefrontComponent({
   store,
   floorY,
   isSelected,
+  isHighlighted,
   onSelect,
+  onHoverStore,
 }) {
-  const { position, name, category, unit } = store
-  const palette = CATEGORY_PALETTES[category] || CATEGORY_PALETTES.Fashion
+  const { position, name, brand, category, type } = store
+  const displayName = brand || name
+  const isEmphasized = isSelected || isHighlighted
+  const interiorCategory = type === 'Dining'
+    ? 'Food Court'
+    : type === 'Entertainment'
+      ? 'Entertainment'
+      : category.includes('Electronics')
+        ? 'Electronics'
+        : 'Fashion'
+  const palette = CATEGORY_PALETTES[interiorCategory]
 
   // Store orientation based on X position:
   // Storefront facades face inward toward the main corridor.
@@ -259,22 +271,28 @@ function StorefrontComponent({
       }}
       onPointerOver={(e) => {
         e.stopPropagation()
-        document.body.style.cursor = 'pointer'
+        if (e.pointerType === 'mouse') onHoverStore(store.id)
       }}
-      onPointerOut={() => {
-        document.body.style.cursor = 'default'
+      onPointerOut={(e) => {
+        if (e.pointerType === 'mouse') onHoverStore(null)
       }}
     >
       {/* Clickable Storefront Hitbox for Effortless User Selection */}
-      <mesh position={[0, height / 2, depth / 2]}>
-        <boxGeometry args={[width, height, depth]} />
-        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+      <mesh
+        position={[0, height / 2, -0.18]}
+        onClick={(event) => {
+          event.stopPropagation()
+          onSelect(store)
+        }}
+      >
+        <boxGeometry args={[width, height, 0.12]} />
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} colorWrite={false} />
       </mesh>
 
       {/* ── STORE INTERIOR ROOM (FLOOR, WALLS, CEILING) ── */}
       {/* Interior Floor */}
-      <mesh position={[0, 0.02, depth / 2]} receiveShadow>
-        <planeGeometry args={[width, depth]} rotation={[-Math.PI / 2, 0, 0]} />
+      <mesh position={[0, 0.02, depth / 2]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[width, depth]} />
         <meshStandardMaterial color="#dcd3c4" roughness={0.3} metalness={0.1} />
       </mesh>
 
@@ -297,29 +315,20 @@ function StorefrontComponent({
       </mesh>
 
       {/* Store Interior Ceiling */}
-      <mesh position={[0, height, depth / 2]}>
-        <planeGeometry args={[width, depth]} rotation={[Math.PI / 2, 0, 0]} />
+      <mesh position={[0, height, depth / 2]} rotation={[Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[width, depth]} />
         <meshStandardMaterial color="#f0eadf" roughness={0.5} />
       </mesh>
 
-      {/* Interior Spot Lighting */}
-      <pointLight
-        position={[0, height - 0.4, depth / 2]}
-        color={isSelected ? GOLD_GLOW : '#fff5e6'}
-        intensity={isSelected ? 2 : 1.4}
-        distance={8}
-        decay={2}
-      />
-
       {/* ── DETAILED INTERIOR DISPLAY FIXTURES ── */}
-      <StoreInterior category={category} palette={palette} isSelected={isSelected} />
+      <StoreInterior category={interiorCategory} palette={palette} />
 
       {/* ── STOREFRONT ARCHITECTURAL FACADE (FACING CORRIDOR AT Z = 0) ── */}
       {/* Top Header / Signboard Fascia Beam */}
       <mesh position={[0, height - 0.35, 0]} castShadow>
         <boxGeometry args={[width + 0.08, 0.7, 0.22]} />
         <meshStandardMaterial
-          color={isSelected ? '#1c1a17' : '#242220'}
+          color={isEmphasized ? '#1c1a17' : '#242220'}
           metalness={0.65}
           roughness={0.25}
         />
@@ -329,9 +338,9 @@ function StorefrontComponent({
       <mesh position={[0, height - 0.35, -0.115]}>
         <boxGeometry args={[width, 0.62, 0.02]} />
         <meshStandardMaterial
-          color={isSelected ? GOLD_GLOW : palette.accent}
-          emissive={isSelected ? GOLD_GLOW : palette.accent}
-          emissiveIntensity={isSelected ? 0.9 : 0.4}
+          color={isEmphasized ? GOLD_GLOW : palette.accent}
+          emissive={isEmphasized ? GOLD_GLOW : palette.accent}
+          emissiveIntensity={isEmphasized ? 0.9 : 0.4}
         />
       </mesh>
 
@@ -341,33 +350,20 @@ function StorefrontComponent({
         <meshStandardMaterial color="#141312" metalness={0.7} roughness={0.3} />
       </mesh>
 
-      {/* Backlit Store Name (3D Text) */}
-      <Text
-        position={[0, height - 0.3, -0.14]}
-        fontSize={0.22}
-        maxWidth={width - 0.4}
-        color={isSelected ? GOLD_GLOW : '#fffefa'}
-        anchorX="center"
-        anchorY="middle"
-        rotation={[0, Math.PI, 0]}
-        font={undefined}
-      >
-        {name.toUpperCase()}
-      </Text>
-
-      {/* Category & Unit Subtitle */}
-      <Text
-        position={[0, height - 0.48, -0.14]}
-        fontSize={0.095}
-        maxWidth={width - 0.4}
-        color={isSelected ? '#e8d5a8' : palette.accent}
-        anchorX="center"
-        anchorY="middle"
-        letterSpacing={0.08}
-        rotation={[0, Math.PI, 0]}
-      >
-        {`${category.toUpperCase()} • ${unit}`}
-      </Text>
+      {store.floor < 4 && (
+        <Billboard position={[0, height - 0.35, -0.15]} follow>
+          <Text
+            fontSize={0.24}
+            maxWidth={width - 0.3}
+            color={isEmphasized ? GOLD_GLOW : '#fffefa'}
+            anchorX="center"
+            anchorY="middle"
+            textAlign="center"
+          >
+            {displayName}
+          </Text>
+        </Billboard>
+      )}
 
       {/* Vertical Side Framing Columns */}
       <mesh position={[-width / 2 + 0.08, height / 2, 0]} castShadow>
@@ -405,6 +401,7 @@ function StorefrontComponent({
             metalness={0.1}
             transparent
             opacity={0.65}
+            side={THREE.DoubleSide}
           />
         </mesh>
         <mesh position={[doorWidth / 4, 0, 0]}>
@@ -416,6 +413,7 @@ function StorefrontComponent({
             metalness={0.1}
             transparent
             opacity={0.65}
+            side={THREE.DoubleSide}
           />
         </mesh>
 
@@ -444,6 +442,7 @@ function StorefrontComponent({
           reflectivity={0.9}
           transparent
           opacity={0.6}
+          side={THREE.DoubleSide}
         />
       </mesh>
 
@@ -461,6 +460,7 @@ function StorefrontComponent({
           reflectivity={0.9}
           transparent
           opacity={0.6}
+          side={THREE.DoubleSide}
         />
       </mesh>
 

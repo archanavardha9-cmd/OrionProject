@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { ArrowDownRight, ArrowLeft, ArrowUpRight, Menu, X } from 'lucide-react'
+import { ArrowLeft, ArrowUpRight, Menu, X } from 'lucide-react'
 
 const links = [
   ['Explore', '/explore'],
@@ -48,13 +48,12 @@ export function SiteFooter() {
         <div className="footer-links">
           <div><span className="footer-label">DISCOVER</span>{links.slice(0, 4).map(([label, path]) => <Link key={path} to={path}>{label}</Link>)}</div>
           <div><span className="footer-label">PLAN YOUR VISIT</span>{links.slice(4).map(([label, path]) => <Link key={path} to={path}>{label}</Link>)}</div>
-          <div><span className="footer-label">FIND US</span><span>Gorakhpur, Uttar Pradesh</span><span>Exact address to be confirmed</span><Link to="/visit">Visitor information <ArrowUpRight size={13} /></Link><span className="footer-label footer-label-spaced">SOCIAL & LEGAL</span><span>Social channels to be confirmed</span><span>Privacy & terms to be confirmed</span></div>
+          <div><span className="footer-label">FIND US</span><span>Gorakhpur, Uttar Pradesh</span><Link to="/visit">Visitor information <ArrowUpRight size={13} /></Link></div>
         </div>
       </div>
       <div className="footer-bottom">
         <span>© {currentYear} Orion Mall Gorakhpur</span>
-        <span>Sample content shown for experience preview</span>
-        <Link to="/visit">Contact & visitor information <ArrowDownRight size={13} /></Link>
+        <Link to="/visit">Visitor information <ArrowUpRight size={13} /></Link>
       </div>
     </footer>
   )

@@ -7,7 +7,6 @@ import {
   ChevronUp,
   Compass,
   Layers,
-  MapPin,
   X,
 } from 'lucide-react'
 import { floorLabel, floorName } from '../../data/floors'
@@ -17,7 +16,6 @@ export default function WalkthroughHUD({
   mode = 'full',
   selectedStore = null,
   onCloseStore = () => {},
-  onWalkToStore = () => {},
   transitPrompt = null,
   onTransit = () => {},
   onReset = () => {},
@@ -89,29 +87,23 @@ export default function WalkthroughHUD({
       {selectedStore && (
         <aside className="walkthrough-store-popup" role="dialog" aria-label={`${selectedStore.name} details`}>
           <div className="popup-header">
-            <div className="popup-store-brand">
-              {selectedStore.image && <img src={selectedStore.image} alt="" />}
-              <span className="popup-eyebrow">{selectedStore.category}</span>
-            </div>
+            <span className="popup-eyebrow">{selectedStore.category}</span>
             <button className="popup-close" onClick={onCloseStore} aria-label="Close shop details" type="button">
               <X size={16} />
             </button>
           </div>
           <h2 className="popup-title">{selectedStore.name}</h2>
           <div className="popup-meta">
-            <span className="popup-unit">{selectedStore.unit}</span>
             <span>{floorLabel(selectedStore.floor)} &middot; {floorName(selectedStore.floor)}</span>
           </div>
           {selectedStore.description && <p className="popup-desc">{selectedStore.description}</p>}
-          {selectedStore.isVerified === false && (
-            <p className="popup-disclaimer">Conceptual directory listing; tenant details are not verified.</p>
-          )}
           <div className="popup-actions">
-            <button className="popup-walk-btn" onClick={() => onWalkToStore(selectedStore)} type="button">
-              <MapPin size={14} />
-              Focus storefront
-            </button>
-            <Link to={`/stores/${selectedStore.slug}`} className="popup-details-link" aria-label={`View ${selectedStore.name} profile`}>
+            <Link
+              to={`/stores/${selectedStore.slug}?from=explore&store=${selectedStore.slug}`}
+              className="popup-details-link"
+              aria-label={`View ${selectedStore.name} profile`}
+            >
+              Store details
               <ArrowRight size={15} />
             </Link>
           </div>
@@ -126,7 +118,7 @@ export default function WalkthroughHUD({
             <span className="kbd-badge">S</span>
             <span className="kbd-badge">D</span>
           </span>
-          <span>Drag to look &middot; WASD to walk &middot; Select a storefront</span>
+          <span>Cursor / touch-drag to look &middot; WASD to walk &middot; Select a storefront</span>
         </p>
         <div className="mobile-touch-cluster" aria-label="Walk controls">
           <button className="touch-control-btn" onPointerDown={() => setTouchDirection('left')} onPointerUp={() => onSetTouchVector({ x: 0, y: 0 })} onPointerCancel={() => onSetTouchVector({ x: 0, y: 0 })} aria-label="Walk left" type="button">

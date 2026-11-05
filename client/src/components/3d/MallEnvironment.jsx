@@ -1,13 +1,20 @@
 import { useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { Text } from '@react-three/drei'
+import { Billboard, Text } from '@react-three/drei'
 import { adjacentFloorNumber, FLOOR_HEIGHT, floorName, floors } from '../../data/floors'
+import Storefront from './Storefront'
+import { illustrativeStorefrontPosition } from './storefrontLayout'
 
 const GOLD = '#d4af37'
 const BRASS_COLLAR = '#bfa15f'
 
 export default function MallEnvironment({
   floor = 0,
+  stores = [],
+  selectedStoreId = null,
+  highlightedStoreIds = [],
+  onSelectStore = () => {},
+  onHoverStore = () => {},
   onNavigateFloor,
   onFloorClick = () => {},
 }) {
@@ -16,6 +23,10 @@ export default function MallEnvironment({
   const nextFloor = adjacentFloorNumber(floor)
   const isUpperFloor = nextFloor > floor
   const topFloor = floors[floors.length - 1]?.number
+  const storefronts = stores.map((store, index) => ({
+    ...store,
+    position: illustrativeStorefrontPosition(index, stores.length),
+  }))
 
   // Gentle floating rotation for the central atrium kinetic sculpture
   useFrame((_, delta) => {
@@ -115,6 +126,73 @@ export default function MallEnvironment({
           </group>
         ))
       )}
+
+      {/* Storefronts line both sides of the shared visitor corridor. */}
+      {storefronts.map((store) => (
+        <Storefront
+          key={store.id}
+          store={store}
+          floorY={0}
+          isSelected={store.id === selectedStoreId}
+          isHighlighted={highlightedStoreIds.includes(store.id)}
+          onSelect={onSelectStore}
+          onHoverStore={onHoverStore}
+        />
+      ))}
+
+      {storefronts.filter((store) => store.floor >= 4).map((store) => {
+        const isEmphasized = store.id === selectedStoreId || highlightedStoreIds.includes(store.id)
+
+        return (
+          <Billboard
+            key={`${store.id}-wayfinding-sign`}
+            position={[store.position.x * 0.48, 3.1, store.position.z]}
+            follow
+          >
+            <group
+              onClick={(event) => {
+                event.stopPropagation()
+                onSelectStore(store)
+              }}
+              onPointerOver={(event) => {
+                event.stopPropagation()
+                if (event.pointerType === 'mouse') onHoverStore(store.id)
+              }}
+              onPointerOut={(event) => {
+                if (event.pointerType === 'mouse') onHoverStore(null)
+              }}
+            >
+              <mesh position={[0, 0, -0.035]}>
+                <boxGeometry args={[3, 0.82, 0.08]} />
+                <meshStandardMaterial
+                  color={isEmphasized ? '#283c3b' : '#172832'}
+                  emissive={isEmphasized ? '#b4975a' : '#000000'}
+                  emissiveIntensity={isEmphasized ? 0.35 : 0}
+                  metalness={0.35}
+                  roughness={0.38}
+                />
+              </mesh>
+              {[-0.22, 0.22].map((x) => (
+                <mesh key={x} position={[x, 0.49, -0.035]}>
+                  <boxGeometry args={[0.045, 0.16, 0.06]} />
+                  <meshStandardMaterial color={BRASS_COLLAR} metalness={0.8} roughness={0.25} />
+                </mesh>
+              ))}
+              <Text
+                position={[0, 0, 0.02]}
+                fontSize={0.18}
+                maxWidth={2.8}
+                color={isEmphasized ? '#ffe4a3' : '#fffefa'}
+                anchorX="center"
+                anchorY="middle"
+                textAlign="center"
+              >
+                {store.brand}
+              </Text>
+            </group>
+          </Billboard>
+        )
+      })}
 
       {/* ── 4. CORRIDOR PLANTERS & RESTING BENCHES ── */}
       {[-9, -3, 3].map((z) => (
@@ -315,12 +393,6 @@ export default function MallEnvironment({
               onNavigateFloor(nextFloor)
             }
           }}
-          onPointerOver={() => {
-            document.body.style.cursor = 'pointer'
-          }}
-          onPointerOut={() => {
-            document.body.style.cursor = 'default'
-          }}
         >
           <boxGeometry args={[1.2, 1.6, 1.5]} />
           <meshBasicMaterial transparent opacity={0} />
@@ -394,12 +466,6 @@ export default function MallEnvironment({
             if (onNavigateFloor) {
               onNavigateFloor(nextFloor)
             }
-          }}
-          onPointerOver={() => {
-            document.body.style.cursor = 'pointer'
-          }}
-          onPointerOut={() => {
-            document.body.style.cursor = 'default'
           }}
         >
           <cylinderGeometry args={[0.85, 0.85, 3.2, 16]} />

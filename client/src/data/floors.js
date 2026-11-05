@@ -1,27 +1,13 @@
-// Orion Mall Gorakhpur — mall directory data
-// NOTE: Store names, floors, units, and descriptions are illustrative conceptual
-// content for this frontend preview. They are NOT verified tenant information
-// for Orion Mall Gorakhpur. Replace with verified data before public use.
-
 export const FLOOR_HEIGHT = 4.25
 
 export const floors = [
-  {
-    id: 'lg',
-    name: 'Lower Ground',
-    label: 'LG',
-    number: -1,
-    description: 'Arrival, parking access, daily essentials and visitor services.',
-    wing: 'Lower Ground Level',
-    image: '/images/mall/lower-ground.webp',
-  },
   {
     id: 'g',
     name: 'Ground Floor',
     label: 'G',
     number: 0,
-    description: 'Main entrance, flagship retail, beauty, accessories and customer service.',
-    wing: 'Grand Atrium',
+    description: 'Anchor fashion, premium menswear and official technology experiences.',
+    wing: 'Anchor Fashion & Premium Tech',
     image: '/images/mall/ground-floor.webp',
   },
   {
@@ -29,8 +15,8 @@ export const floors = [
     name: 'First Floor',
     label: 'F1',
     number: 1,
-    description: 'Fashion, footwear, lifestyle, cosmetics and specialty stores.',
-    wing: 'Fashion Promenade',
+    description: 'Youth casuals, denim, fast fashion and lifestyle gifts.',
+    wing: 'Youth Casuals, Denims & Lifestyle Gifts',
     image: '/images/mall/first-floor.webp',
   },
   {
@@ -38,8 +24,8 @@ export const floors = [
     name: 'Second Floor',
     label: 'F2',
     number: 2,
-    description: 'Restaurants, cafes, food court and family dining destinations.',
-    wing: 'Dining Terrace',
+    description: "Women's ethnic and western wear, kids' essentials, footwear and personal care.",
+    wing: "Women's Ethnic Wear, Footwear & Kids' Essentials",
     image: '/images/mall/second-floor.webp',
   },
   {
@@ -47,23 +33,41 @@ export const floors = [
     name: 'Third Floor',
     label: 'F3',
     number: 3,
-    description: 'Cinema, gaming, family entertainment and leisure destinations.',
-    wing: 'Entertainment Block',
+    description: 'Household value, family gaming and fast-food destinations.',
+    wing: 'Household Value, Gaming Arena & Fast Food Area',
     image: '/images/mall/third-floor.webp',
+  },
+  {
+    id: 'f4',
+    name: 'Fourth Floor',
+    label: 'F4',
+    number: 4,
+    description: 'Cinema, lounge cafes and entertainment.',
+    wing: 'Cinema, Lounge Cafes & Entertainment',
+    image: '/images/entertainment/cinema.webp',
+  },
+  {
+    id: 'f5',
+    name: 'Fifth Floor',
+    label: 'F5',
+    number: 5,
+    description: 'Luxury dining and social experiences.',
+    wing: 'Luxury Lounges',
+    image: '/images/dining/restaurant.webp',
   },
 ]
 
 export const floorLabel = (index) => {
-  const floor = floors.find((f) => f.number === Number(index))
+  const floor = floors.find((item) => item.number === Number(index))
   return floor ? floor.label : `F${index}`
 }
 
 export const floorName = (index) => {
-  const floor = floors.find((f) => f.number === Number(index))
+  const floor = floors.find((item) => item.number === Number(index))
   return floor ? floor.name : `Floor ${index}`
 }
 
-export const floorByNumber = (number) => floors.find((f) => f.number === Number(number))
+export const floorByNumber = (number) => floors.find((item) => item.number === Number(number))
 
 export const adjacentFloorNumber = (number) => {
   const index = floors.findIndex((floor) => floor.number === Number(number))

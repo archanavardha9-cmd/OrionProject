@@ -1,13 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+@import './styles/typography.css';
 :root {
-  --paper: #faf7f0;
-  --white: #ffffff;
-  --ink: #292a26;
-  --muted: #77736b;
-  --gold: #d3b16f;
-  --line: #e5ddd0;
+  /* Updated richer color palette */
+  --paper: #f5f0e6; /* light warm background */
+  --white: #fff9f2;
+  --ink: #2b2a20; /* darker text */
+  --muted: #7a7365;
+  --gold: #c8a96a; /* brand accent */
+  --line: #dfdacf;
   --sage: #91aa96;
-  --coral: #f18b78;
-  --peach: #f6c8aa;
+  --coral: #e08970; /* richer coral */
+  --peach: #f5c2a1;
   --lavender: #c7b8f1;
   --mint: #b8dccb;
   --sky: #a8d5f2;
@@ -16,6 +19,7 @@
   --serif: 'Playfair Display', Georgia, serif;
   --sans: 'DM Sans', 'Segoe UI', sans-serif;
 }
+
 
 .route-main { min-height: 65vh; }
 .page-transition { width: 100%; overflow: hidden; }

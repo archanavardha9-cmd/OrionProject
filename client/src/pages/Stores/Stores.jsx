@@ -1,162 +1,124 @@
 import { useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { Search, ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, Search, X } from 'lucide-react'
 import { stores, floorLabel, searchStores, categories } from '../../data/stores'
 import { floors } from '../../data/floors'
-import { mallInfo } from '../../data/mallInfo'
-import ImageWithFallback from '../../components/common/ImageWithFallback'
-import Button from '../../components/common/Button'
-import SectionHeading from '../../components/common/SectionHeading'
+import { floorName } from '../../data/floors'
 import PageTransition from '../../components/layout/PageTransition'
 
 export default function StoresPage() {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const [query, setQuery] = useState('')
-  const [category, setCategory] = useState('All')
-  const [floor, setFloor] = useState('All')
+  const [searchParams] = useSearchParams()
+  const [query, setQuery] = useState(searchParams.get('q') || '')
+  const [category, setCategory] = useState(searchParams.get('category') || 'All')
+  const [floor, setFloor] = useState(searchParams.get('floor') || 'All')
 
-  const term = searchParams.get('q') || query
-  const cat = searchParams.get('category') || category
-  const fl = searchParams.get('floor') || floor
-
-  const visible = useMemo(() => {
-    return searchStores(term).filter((s) => {
-      if (cat !== 'All' && s.category !== cat) return false
-      if (fl !== 'All' && Number(s.floor) !== Number(fl)) return false
-      return true
-    })
-  }, [term, cat, fl])
-
-  const categoriesList = ['All', ...categories.filter((c) => c !== 'All')]
+  const visible = useMemo(
+    () => searchStores(query).filter((store) =>
+      (category === 'All' || store.category === category)
+      && (floor === 'All' || store.floor === Number(floor))
+    ),
+    [category, floor, query]
+  )
 
   return (
     <PageTransition>
       <div className="directory-page">
-        <div className="directory-hero">
-          <div>
-            <SectionHeading
-              eyebrow="THE ORION DIRECTORY"
-              title={<>Find your<br /><em>favourite.</em></>}
-              copy="Search a name, choose a category or floor, and follow your own kind of day."
-            />
+        <header className="directory-hero">
+          <div className="directory-hero-copy">
+            <p className="eyebrow"><span className="eyebrow-line" />THE ORION DIRECTORY</p>
+            <h1>Good finds,<br /><em>on every floor.</em></h1>
+            <p>From the first look to the last stop, find the right place across all six levels of Orion Mall Gorakhpur.</p>
           </div>
-          <div className="directory-hero-art">
-            <ImageWithFallback
-              src="/images/mall/atrium.webp"
-              alt="Orion Mall atrium directory preview"
-              className="directory-hero-image"
-            />
-            <span className="directory-hero-count">
-              {stores.length}<br />
-              <small>DESTINATIONS</small>
-            </span>
+          <div className="directory-hero-art" aria-label={`${stores.length} listed destinations`}>
+            <span className="directory-hero-count">{stores.length}<small>DESTINATIONS</small></span>
+            <span className="directory-art-floor">G / F1 / F2 / F3 / F4 / F5</span>
           </div>
-        </div>
+        </header>
 
-        <div className="directory-content">
-          <div className="directory-scene-intro">
+        <section className="directory-content" aria-label="Store directory">
+          <div className="directory-heading">
             <div>
-              <span className="eyebrow">A PLACE FOR EVERY POINT OF VIEW</span>
-              <h2>Walk the<br /><em>shopfronts.</em></h2>
+              <span className="eyebrow">SHOP BY NAME, CATEGORY OR LEVEL</span>
+              <h2>Every destination.<br /><em>One clear view.</em></h2>
             </div>
-            <p>Browse a visual first look at the retail mix, then filter the directory by category and floor.</p>
-          </div>
-
-          <div className="directory-storefront-stage">
-            {stores.slice(0, 3).map((store, index) => (
-              <Link
-                key={store.id}
-                to={`/stores/${store.slug}`}
-                className={`directory-stage-link directory-stage-link-${index}`}
-              >
-                <span>0{index + 1} &middot; {floorLabel(store.floor)}</span>
-                <strong>{store.name}</strong>
-                <ArrowUpRight size={15} />
-              </Link>
-            ))}
+            <p>{visible.length} {visible.length === 1 ? 'result' : 'results'} from the supplied directory</p>
           </div>
 
           <div className="directory-toolbar">
-            <div className="directory-search">
-              <Search size={18} />
+            <label className="directory-search">
+              <Search size={18} aria-hidden="true" />
               <input
-                value={term}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search a store, category, or idea"
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search a store, category or description"
                 aria-label="Search stores"
               />
-              {term && (
-                <button onClick={() => setQuery('')} aria-label="Clear search">
-                  &times;
+              {query && (
+                <button onClick={() => setQuery('')} aria-label="Clear search" type="button">
+                  <X size={17} />
                 </button>
               )}
-            </div>
-            <label className="directory-floor">
-              FLOOR
-              <select
-                value={fl}
-                onChange={(e) => setFloor(e.target.value)}
-              >
+            </label>
+            <label className="directory-filter">
+              <span>FLOOR</span>
+              <select value={floor} onChange={(event) => setFloor(event.target.value)}>
                 <option value="All">All levels</option>
                 {floors.map((item) => (
-                  <option value={item.number} key={item.number}>
-                    {item.label} &middot; {item.name}
-                  </option>
+                  <option value={item.number} key={item.id}>{item.label} · {item.name}</option>
                 ))}
+              </select>
+            </label>
+            <label className="directory-filter">
+              <span>CATEGORY</span>
+              <select value={category} onChange={(event) => setCategory(event.target.value)}>
+                {categories.map((item) => <option value={item} key={item}>{item}</option>)}
               </select>
             </label>
           </div>
 
-          <div className="directory-categories">
-            {categoriesList.map((item) => (
-              <button
-                className={cat === item ? 'active' : ''}
-                key={item}
-                onClick={() => setCategory(item)}
-              >
-                {item}
-              </button>
-            ))}
+          <div className="directory-floor-summary">
+            {floors.map((item) => {
+              const count = visible.filter((store) => store.floor === item.number).length
+              return (
+                <button
+                  type="button"
+                  key={item.id}
+                  className={floor === String(item.number) ? 'active' : ''}
+                  onClick={() => setFloor(floor === String(item.number) ? 'All' : String(item.number))}
+                >
+                  <span>{item.label}</span>
+                  <strong>{item.name}</strong>
+                  <small>{count} {count === 1 ? 'place' : 'places'}</small>
+                </button>
+              )
+            })}
           </div>
 
-          <div className="directory-result-count">
-            <span>DESTINATIONS / {String(visible.length).padStart(2, '0')}</span>
-            <span>{fl === 'All' ? 'ALL FLOORS' : `${floorLabel(fl)} FLOOR`}</span>
-          </div>
-
-          <div className="directory-list">
-            {visible.map((store, index) => (
-              <Link
-                className="directory-row"
-                to={`/stores/${store.slug}`}
-                key={store.id}
-              >
-                <span className="directory-row-index">0{index + 1}</span>
-                <span className="directory-row-name">
-                  {store.name}
-                  <small>{store.description}</small>
-                </span>
+          <div className="directory-card-grid">
+            {visible.map((store) => (
+              <Link className="directory-store-card" to={`/stores/${store.slug}`} key={store.id}>
+                <div className="directory-card-top">
+                  <span className="directory-card-mark">{store.brand.slice(0, 1)}</span>
+                  <span className="directory-card-floor">{floorLabel(store.floor)} · {floorName(store.floor)}</span>
+                  <ArrowUpRight size={17} />
+                </div>
                 <span className="directory-row-category">{store.category}</span>
-                <span className="directory-row-floor">
-                  <b>{floorLabel(store.floor)}</b>
-                  <small>{store.location || store.unit}</small>
-                </span>
-                <ArrowUpRight className="directory-row-arrow" size={18} />
+                <strong>{store.brand}</strong>
+                <p>{store.description}</p>
               </Link>
             ))}
-            {!visible.length && (
+            {visible.length === 0 && (
               <div className="empty-directory">
                 <Search size={28} />
-                <p>No places found just yet.</p>
-                <Button variant="ghost" onClick={() => { setQuery(''); setCategory('All'); setFloor('All') }}>
+                <p>No destinations match those filters.</p>
+                <button type="button" onClick={() => { setQuery(''); setCategory('All'); setFloor('All') }}>
                   Clear filters
-                </Button>
+                </button>
               </div>
             )}
           </div>
-
-          <p className="directory-disclaimer">{mallInfo.note}</p>
-        </div>
+        </section>
       </div>
     </PageTransition>
   )

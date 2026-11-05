@@ -1,5 +1,5 @@
-import { Link, useLocation } from 'react-router-dom'
-import { ArrowDownRight, ArrowUpRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { ArrowUpRight } from 'lucide-react'
 
 const links = [
   ['Explore', '/explore'],
@@ -14,9 +14,6 @@ const links = [
 const currentYear = new Date().getFullYear()
 
 export default function Footer() {
-  const { pathname } = useLocation()
-  const isExploring = pathname === '/explore'
-
   return (
     <footer className="site-footer">
       <div className="footer-main">
@@ -49,18 +46,13 @@ export default function Footer() {
           <div>
             <span className="footer-label">FIND US</span>
             <span>Gorakhpur, Uttar Pradesh</span>
-            <span>Exact address to be confirmed</span>
             <Link to="/visit">Visitor information <ArrowUpRight size={13} /></Link>
-            <span className="footer-label footer-label-spaced">SOCIAL &amp; LEGAL</span>
-            <span>Social channels to be confirmed</span>
-            <span>Privacy &amp; terms to be confirmed</span>
           </div>
         </div>
       </div>
       <div className="footer-bottom">
         <span>© {currentYear} Orion Mall Gorakhpur</span>
-        <span>Sample content shown for experience preview</span>
-        <Link to="/visit">Contact &amp; visitor information <ArrowDownRight size={13} /></Link>
+        <Link to="/visit">Visitor information <ArrowUpRight size={13} /></Link>
       </div>
     </footer>
   )
