@@ -36,7 +36,7 @@ export default function DiningPage() {
           </div>
           <div className="dining-hero-art">
             <ImageWithFallback
-              src="/images/dining/restaurant.svg"
+              src="/images/dining/restaurant.webp"
               alt="Dining destinations at Orion Mall"
               className="dining-hero-image"
             />

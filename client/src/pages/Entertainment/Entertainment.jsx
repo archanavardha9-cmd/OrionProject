@@ -22,7 +22,7 @@ export default function EntertainmentPage() {
           </div>
           <div className="entertainment-hero-art">
             <ImageWithFallback
-              src="/images/entertainment/cinema.svg"
+              src="/images/entertainment/cinema.webp"
               alt="Entertainment destinations at Orion Mall"
               className="entertainment-hero-image"
             />

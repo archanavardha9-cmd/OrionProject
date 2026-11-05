@@ -29,7 +29,7 @@ export default function VisitPage() {
           </div>
           <div className="visit-architecture">
             <ImageWithFallback
-              src="/images/mall/entrance.svg"
+              src="/images/mall/entrance.webp"
               alt="Orion Mall entrance"
               className="visit-architecture-image"
             />

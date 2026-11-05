@@ -17,7 +17,7 @@ export default function OffersPage() {
           </div>
           <div className="offer-orbit-art">
             <ImageWithFallback
-              src={offers[0]?.image || '/images/offers/new-season.svg'}
+              src={offers[0]?.image || '/images/offers/new-season.webp'}
               alt={offers[0]?.title || 'Offer'}
               className="offer-orbit-image"
             />

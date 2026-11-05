@@ -42,7 +42,7 @@ export default function StoresPage() {
           </div>
           <div className="directory-hero-art">
             <ImageWithFallback
-              src="/images/mall/atrium.svg"
+              src="/images/mall/atrium.webp"
               alt="Orion Mall atrium directory preview"
               className="directory-hero-image"
             />

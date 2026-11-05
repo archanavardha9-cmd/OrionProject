@@ -22,7 +22,7 @@ export default function EventsPage() {
           </div>
           <div className="events-hero-art">
             <ImageWithFallback
-              src={events[0]?.image || '/images/events/season-of-light.svg'}
+              src={events[0]?.image || '/images/events/season-of-light.webp'}
               alt={events[0]?.title || 'Orion event'}
               className="events-hero-image"
             />
