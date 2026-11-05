@@ -72,10 +72,11 @@ p { line-height: 1.7; }
 
 /* Home */
 .home-hero {
-  min-height: min(810px, calc(100svh - 82px)); height: max(680px, calc(100svh - 82px));
+  min-height: 420px; height: auto; aspect-ratio: 1936 / 1264;
   padding: 0 max(8vw, calc((100vw - 1320px) / 2)); background: #1d3943; isolation: isolate;
 }
-.home-hero-image { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 57%; }
+.home-hero-image { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center; animation: heroZoom 18s ease-out forwards; }
+@keyframes heroZoom { from { transform: scale(1); } to { transform: scale(1.06); } }
 .home-hero-shade { position: absolute; z-index: -1; inset: 0; background: linear-gradient(90deg, rgba(20,43,53,.9) 0%, rgba(20,43,53,.78) 43%, rgba(20,43,53,.15) 100%), linear-gradient(0deg, rgba(20,43,53,.5), transparent 40%); }
 .home-hero .hero-copy { width: min(730px, 82%); padding-bottom: 30px; }
 .home-hero .eyebrow { color: #f2c99f; font-size: .77rem; }
@@ -435,7 +436,7 @@ p { line-height: 1.7; }
   .footer-bottom { align-items: flex-start; flex-direction: column; gap: 10px; }
   .button { min-height: 50px; }
   .home-hero { min-height: 680px; height: calc(92svh - 70px); max-height: 850px; padding: 0 24px 70px; }
-  .home-hero-image { object-position: 58% center; }
+  .home-hero-image { object-position: center; }
   .home-hero-shade { background: linear-gradient(90deg,rgba(20,43,53,.86),rgba(20,43,53,.52)),linear-gradient(0deg,rgba(20,43,53,.5),transparent 40%); }
   .home-hero .hero-copy { width: 100%; }
   .home-hero h1 { font-size: clamp(3.5rem, 15vw, 6rem); }
