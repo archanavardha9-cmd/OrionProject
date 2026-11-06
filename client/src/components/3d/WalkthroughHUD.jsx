@@ -98,11 +98,11 @@ export default function WalkthroughHUD({
           </div>
           {selectedStore.description && <p className="popup-desc">{selectedStore.description}</p>}
           <div className="popup-actions">
-            <Link
-              to={`/stores/${selectedStore.slug}?from=explore&store=${selectedStore.slug}`}
-              className="popup-details-link"
-              aria-label={`View ${selectedStore.name} profile`}
-            >
+              <Link
+                to={`/store?slug=${selectedStore.slug}&from=explore&store=${selectedStore.slug}`}
+                className="popup-details-link"
+                aria-label={`View ${selectedStore.name} profile`}
+              >
               Store details
               <ArrowRight size={15} />
             </Link>

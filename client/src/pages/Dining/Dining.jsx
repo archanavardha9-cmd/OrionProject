@@ -69,7 +69,7 @@ export default function DiningPage() {
           </div>
           <div className="dining-venue-grid">
             {visible.map((store, index) => (
-              <Link key={store.id} to={`/stores/${store.slug}`} className={`dining-venue dining-venue-${index % 3}`}>
+              <Link key={store.id} to={`/store?slug=${store.slug}`} className={`dining-venue dining-venue-${index % 3}`}>
                 <span className="dining-venue-count">{floorLabel(store.floor)}</span>
                 <span className="dining-venue-type">{store.category}</span>
                 <strong>{store.brand}</strong>

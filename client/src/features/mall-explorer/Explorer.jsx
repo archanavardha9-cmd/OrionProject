@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { ArrowUpRight, ChevronLeft, ChevronRight, Layers3, Search, X } from 'lucide-react'
 import { floors, floorLabel } from '../../data/floors'
 import { stores, findStore, searchStores } from '../../data/stores'
@@ -8,6 +8,7 @@ import './explorer.css'
 
 export default function ExplorerPage() {
   const [searchParams, setSearchParams] = useSearchParams()
+  const navigate = useNavigate()
   const routeStore = findStore(searchParams.get('store'))
   const [floor, setFloor] = useState(() => routeStore?.floor ?? 0)
   const [query, setQuery] = useState('')
@@ -36,10 +37,12 @@ export default function ExplorerPage() {
   )
 
   const selectStore = (store) => {
-    setFloor(store.floor)
-    setCategory('All')
-    setQuery('')
-    setSearchParams({ store: store.slug })
+    if (!store) {
+      setSearchParams({}, { replace: true })
+      return
+    }
+    // Open the shared Store Space with the selected destination focused.
+    navigate(`/store?slug=${encodeURIComponent(store.slug)}&from=explore&store=${encodeURIComponent(store.slug)}`)
   }
 
   const changeFloor = (nextFloor) => {

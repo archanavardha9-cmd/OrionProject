@@ -39,7 +39,7 @@ export default function EntertainmentPage() {
           </div>
           <div className="entertainment-cards">
             {entertainment.map((store) => (
-              <Link key={store.id} to={`/stores/${store.slug}`} className="entertainment-card">
+              <Link key={store.id} to={`/store?slug=${store.slug}`} className="entertainment-card">
                 <div className="ent-card-art">
                   <img src={destinationImages[store.floor]} alt="" className="ent-card-art-image" loading="lazy" />
                   <small>{floorLabel(store.floor)} · {floorName(store.floor)}</small>

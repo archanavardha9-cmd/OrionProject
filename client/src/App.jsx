@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react'
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useLocation, useSearchParams } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import './App.css'
@@ -9,7 +9,7 @@ const ExplorerPage = lazy(() => import('./features/mall-explorer/Explorer'))
 
 import HomePage from './pages/Home/Home'
 import StoresPage from './pages/Stores/Stores'
-import StoreDetailsPage from './pages/StoreDetails/StoreDetails'
+import StoreSpacePage from './pages/StoreSpace/StoreSpace'
 import DiningPage from './pages/Dining/Dining'
 import EventsPage from './pages/Events/Events'
 import EventDetailsPage from './pages/EventDetails/EventDetails'
@@ -33,7 +33,9 @@ const pageTitles = {
 function RoutedExperience() {
   const location = useLocation()
   const isAdmin = location.pathname.startsWith('/admin')
-  const storeSlug = location.pathname.startsWith('/stores/') ? location.pathname.slice('/stores/'.length) : null
+  const [searchParams] = useSearchParams()
+  const storeSlug = searchParams.get('slug')
+  // storeSlug is obtained via query param in StoreSpacePage
   const eventSlug = location.pathname.startsWith('/events/') ? location.pathname.slice('/events/'.length) : null
   const title = pageTitles[location.pathname]
     || (storeSlug ? `${storeSlug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())} — Orion Mall Gorakhpur`
@@ -55,7 +57,7 @@ function RoutedExperience() {
             <Route path="/" element={<HomePage />} />
             <Route path="/explore" element={<ExplorerPage />} />
             <Route path="/stores" element={<StoresPage />} />
-            <Route path="/stores/:slug" element={<StoreDetailsPage />} />
+            <Route path="/store" element={<StoreSpacePage />} />
             <Route path="/dining" element={<DiningPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/events/:slug" element={<EventDetailsPage />} />

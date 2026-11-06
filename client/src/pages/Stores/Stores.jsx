@@ -97,7 +97,7 @@ export default function StoresPage() {
 
           <div className="directory-card-grid">
             {visible.map((store) => (
-              <Link className="directory-store-card" to={`/stores/${store.slug}`} key={store.id}>
+              <Link className="directory-store-card" to={`/store?slug=${store.slug}`} key={store.id}>
                 <div className="directory-card-top">
                   <span className="directory-card-mark">{store.brand.slice(0, 1)}</span>
                   <span className="directory-card-floor">{floorLabel(store.floor)} · {floorName(store.floor)}</span>

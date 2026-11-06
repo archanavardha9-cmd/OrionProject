@@ -202,7 +202,7 @@ export default function HomePage() {
           <div className="home-featured-grid">
             {featuredStores.map((store, index) => (
               <Link
-                to={`/stores/${store.slug}`}
+                to={`/store?slug=${store.slug}`}
                 className={`home-feature-card home-feature-card-${index + 1}`}
                 key={store.id}
               >
