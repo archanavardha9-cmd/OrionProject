@@ -1,18 +1,48 @@
 .store-space-page {
   position: relative;
   min-height: calc(100vh - 82px);
-  background:
-    radial-gradient(1200px 700px at 15% 10%, rgba(255, 137, 94, 0.18), transparent 55%),
-    radial-gradient(900px 600px at 85% 15%, rgba(88, 197, 255, 0.16), transparent 55%),
-    radial-gradient(900px 700px at 50% 100%, rgba(185, 120, 255, 0.14), transparent 60%),
-    linear-gradient(180deg, #0d1624 0%, #101a2b 45%, #0b1320 100%);
-  color: #f7fbff;
   overflow: hidden;
+  color: #f7fbff;
+  background:
+    radial-gradient(900px 520px at 12% 12%, rgba(255, 92, 122, 0.22), transparent 55%),
+    radial-gradient(760px 520px at 88% 14%, rgba(58, 214, 255, 0.22), transparent 55%),
+    radial-gradient(820px 560px at 18% 88%, rgba(255, 190, 92, 0.16), transparent 58%),
+    radial-gradient(860px 620px at 84% 86%, rgba(167, 139, 250, 0.2), transparent 60%),
+    radial-gradient(700px 420px at 50% 45%, rgba(52, 211, 153, 0.1), transparent 60%),
+    linear-gradient(160deg, #120b2e 0%, #0b1630 38%, #071d2a 70%, #120b22 100%);
+}
+
+.store-space-page::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background:
+    conic-gradient(from 180deg at 50% 50%, rgba(255, 90, 130, 0.08), rgba(80, 210, 255, 0.08), rgba(255, 200, 90, 0.08), rgba(170, 130, 255, 0.08), rgba(255, 90, 130, 0.08));
+  filter: blur(40px);
+  opacity: 0.9;
+  animation: storeSpaceAurora 18s linear infinite;
+  pointer-events: none;
+}
+
+.store-space-page::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 26px 26px;
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+@keyframes storeSpaceAurora {
+  from { transform: rotate(0deg) scale(1.02); }
+  to { transform: rotate(360deg) scale(1.02); }
 }
 
 .store-space-canvas {
   position: absolute;
   inset: 0;
+  z-index: 0;
 }
 
 .store-space-canvas canvas {
@@ -33,8 +63,8 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
-  padding: 22px clamp(16px, 4vw, 40px) 0;
+  gap: 14px;
+  padding: 20px clamp(14px, 4vw, 38px) 0;
 }
 
 .store-space-back,
@@ -45,67 +75,82 @@
   gap: 8px;
   min-height: 42px;
   padding: 0 14px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 999px;
-  background: rgba(10, 18, 32, 0.55);
+  background: rgba(8, 14, 30, 0.5);
   color: #f7fbff;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.04em;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
   transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
 }
 
 .store-space-back:hover,
 .store-space-explore:hover {
   transform: translateY(-1px);
-  background: rgba(18, 31, 54, 0.78);
-  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(18, 28, 54, 0.72);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .store-space-intro {
-  max-width: 520px;
+  max-width: 560px;
   margin: 0 auto;
   text-align: center;
-  text-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 10px 34px rgba(0, 0, 0, 0.4);
 }
 
 .store-space-kicker {
   margin: 0 0 6px;
-  color: rgba(255, 220, 170, 0.95);
+  color: #ffd58a;
   font-size: 10px;
   font-weight: 800;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.24em;
 }
 
 .store-space-intro h1 {
   margin: 0;
   color: #fff;
-  font-size: clamp(30px, 4.4vw, 54px);
-  font-weight: 650;
-  line-height: 1;
-  letter-spacing: -0.05em;
+  font-size: clamp(30px, 4.6vw, 56px);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.store-space-intro h1 em {
+  font-style: normal;
+  background: linear-gradient(90deg, #ff7aa2, #ffd166, #63e6ff, #b197fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .store-space-intro p {
   margin: 10px auto 0;
-  color: rgba(236, 244, 255, 0.78);
+  color: rgba(236, 244, 255, 0.8);
   font-size: 13px;
   line-height: 1.55;
 }
 
 .store-space-panel {
   position: absolute;
-  left: clamp(14px, 4vw, 40px);
-  bottom: clamp(14px, 4vw, 34px);
-  width: min(420px, calc(100% - 28px));
+  left: clamp(14px, 4vw, 38px);
+  bottom: clamp(14px, 4vw, 32px);
+  width: min(430px, calc(100% - 28px));
   pointer-events: auto;
   padding: 18px 18px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 18px;
-  background: linear-gradient(180deg, rgba(14, 24, 42, 0.82), rgba(10, 18, 32, 0.72));
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(10, 18, 38, 0.84), rgba(8, 14, 30, 0.74));
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(16px);
+  animation: storePanelIn 0.28s ease-out;
+}
+
+@keyframes storePanelIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .store-space-panel .eyebrow {
@@ -113,10 +158,11 @@
   align-items: center;
   gap: 8px;
   margin: 0 0 8px;
-  color: #ffd9a8;
+  color: #ffd58a;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .store-space-panel .eyebrow span {
@@ -126,16 +172,16 @@
 .store-space-panel h2 {
   margin: 0;
   color: #fff;
-  font-size: clamp(24px, 3vw, 34px);
+  font-size: clamp(24px, 3.1vw, 36px);
   line-height: 1.02;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.045em;
 }
 
 .store-space-panel > p {
   margin: 10px 0 0;
-  color: rgba(236, 244, 255, 0.82);
+  color: rgba(236, 244, 255, 0.84);
   font-size: 13px;
-  line-height: 1.6;
+  line-height: 1.62;
 }
 
 .store-space-meta {
@@ -170,45 +216,47 @@
   gap: 8px;
   min-height: 40px;
   padding: 0 14px;
+  border: 0;
   border-radius: 999px;
   font-size: 12px;
   font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .store-space-action.primary {
-  background: linear-gradient(135deg, #ff8a5b, #ffbf69);
-  color: #132033;
+  background: linear-gradient(135deg, #ff7aa2, #ffd166);
+  color: #182033;
 }
 
 .store-space-action.secondary {
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #fff;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .store-space-hint {
   position: absolute;
-  right: clamp(14px, 4vw, 40px);
-  bottom: clamp(14px, 4vw, 34px);
-  max-width: 320px;
+  right: clamp(14px, 4vw, 38px);
+  bottom: clamp(14px, 4vw, 32px);
+  max-width: 330px;
   padding: 12px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 14px;
-  background: rgba(10, 18, 32, 0.42);
-  color: rgba(236, 244, 255, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  background: rgba(8, 14, 30, 0.45);
+  color: rgba(236, 244, 255, 0.76);
   font-size: 11px;
-  line-height: 1.5;
-  backdrop-filter: blur(10px);
+  line-height: 1.55;
+  backdrop-filter: blur(12px);
   pointer-events: none;
 }
 
-.store-space-loading,
 .store-space-fallback {
   display: grid;
   place-items: center;
   min-height: calc(100vh - 82px);
   padding: 24px;
-  color: rgba(236, 244, 255, 0.8);
+  color: rgba(236, 244, 255, 0.82);
   text-align: center;
 }
 
@@ -217,22 +265,18 @@
   .store-space-ui {
     min-height: calc(100svh - 70px);
   }
-
   .store-space-topbar {
     flex-wrap: wrap;
-    padding-top: 14px;
+    padding-top: 12px;
   }
-
   .store-space-intro {
     order: 3;
     width: 100%;
     text-align: left;
   }
-
   .store-space-intro p {
     margin-left: 0;
   }
-
   .store-space-panel {
     left: 10px;
     right: 10px;
@@ -240,8 +284,14 @@
     width: auto;
     padding: 14px;
   }
-
   .store-space-hint {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-space-page::before,
+  .store-space-panel {
+    animation: none;
   }
 }

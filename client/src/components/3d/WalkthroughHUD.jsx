@@ -85,25 +85,34 @@ export default function WalkthroughHUD({
       )}
 
       {selectedStore && (
-        <aside className="walkthrough-store-popup" role="dialog" aria-label={`${selectedStore.name} details`}>
+        <aside
+          key={selectedStore.id}
+          className="walkthrough-store-popup"
+          role="dialog"
+          aria-label={`${selectedStore.brand || selectedStore.name} details`}
+        >
           <div className="popup-header">
             <span className="popup-eyebrow">{selectedStore.category}</span>
-            <button className="popup-close" onClick={onCloseStore} aria-label="Close shop details" type="button">
+            <button className="popup-close" onClick={onCloseStore} aria-label="Close destination details" type="button">
               <X size={16} />
             </button>
           </div>
-          <h2 className="popup-title">{selectedStore.name}</h2>
+          <h2 className="popup-title">{selectedStore.brand || selectedStore.name}</h2>
           <div className="popup-meta">
             <span>{floorLabel(selectedStore.floor)} &middot; {floorName(selectedStore.floor)}</span>
+            {selectedStore.type && <span className="popup-unit">{selectedStore.type}</span>}
           </div>
           {selectedStore.description && <p className="popup-desc">{selectedStore.description}</p>}
           <div className="popup-actions">
-              <Link
-                to={`/store?slug=${selectedStore.slug}&from=explore&store=${selectedStore.slug}`}
-                className="popup-details-link"
-                aria-label={`View ${selectedStore.name} profile`}
-              >
-              Store details
+            <button type="button" className="popup-walk-btn" onClick={onCloseStore}>
+              Keep exploring
+            </button>
+            <Link
+              to={`/stores?slug=${selectedStore.slug}&from=explore&store=${selectedStore.slug}`}
+              className="popup-details-link"
+              aria-label={`Open ${selectedStore.brand || selectedStore.name} in Stores`}
+            >
+              Open in Stores
               <ArrowRight size={15} />
             </Link>
           </div>
