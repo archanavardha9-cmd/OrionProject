@@ -19,7 +19,6 @@ export default function EntertainmentPage() {
             <h1>Make a day<br /><em>of the good stuff.</em></h1>
             <p>Bowling, arcade simulators, VR, indoor cricket and the big-screen experience—all in the directory, on the floors they belong.</p>
             <div className="entertainment-tags">
-              <span><Gamepad2 size={16} /> F3 · GAME ZONE</span>
               <span><Clapperboard size={16} /> F4 · CINEMA</span>
             </div>
           </div>
@@ -35,7 +34,8 @@ export default function EntertainmentPage() {
               <p className="eyebrow">YOUR NEXT SCENE</p>
               <h2>Make it<br /><em>an experience.</em></h2>
             </div>
-            <p className="section-blurb">{entertainment.length} entertainment destinations across two floors.</p>
+            <p className="section-blurb">{entertainment.length} entertainment {entertainment.length === 1 ? 'destination' : 'destinations'}.</p>
+
           </div>
           <div className="entertainment-cards">
             {entertainment.map((store) => (

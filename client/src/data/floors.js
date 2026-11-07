@@ -29,15 +29,6 @@ export const floors = [
     image: '/images/mall/second-floor.webp',
   },
   {
-    id: 'f3',
-    name: 'Third Floor',
-    label: 'F3',
-    number: 3,
-    description: 'Household value, family gaming and fast-food destinations.',
-    wing: 'Household Value, Gaming Arena & Fast Food Area',
-    image: '/images/mall/third-floor.webp',
-  },
-  {
     id: 'f4',
     name: 'Fourth Floor',
     label: 'F4',
@@ -45,15 +36,6 @@ export const floors = [
     description: 'Cinema, lounge cafes and entertainment.',
     wing: 'Cinema, Lounge Cafes & Entertainment',
     image: '/images/entertainment/cinema.webp',
-  },
-  {
-    id: 'f5',
-    name: 'Fifth Floor',
-    label: 'F5',
-    number: 5,
-    description: 'Luxury dining and social experiences.',
-    wing: 'Luxury Lounges',
-    image: '/images/dining/restaurant.webp',
   },
 ]
 

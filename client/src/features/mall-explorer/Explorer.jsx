@@ -59,13 +59,15 @@ export default function ExplorerPage() {
     <div className="mall-explorer-page">
       <header className="mall-explorer-header">
         <div className="mall-explorer-header-copy">
-          <p className="mall-explorer-eyebrow">ORION MALL <span /> SIX LEVELS, YOUR WAY</p>
+          <p className="mall-explorer-eyebrow">ORION MALL <span /> {floors.length} LEVELS</p>
           <h1>Find your next stop.</h1>
+
           <p>Move your cursor to look around, choose a floor, then select a storefront or directory result to find a destination.</p>
         </div>
-        <Link to="/stores" className="mall-explorer-directory-link">
-          Full directory <ArrowUpRight size={17} />
-        </Link>
+            <Link to="/stores" className="mall-explorer-directory-link">
+              Stores <ArrowUpRight size={17} />
+            </Link>
+
       </header>
 
       <section className="mall-explorer-shell" aria-label="Interactive mall explorer">

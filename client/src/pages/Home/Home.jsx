@@ -16,10 +16,11 @@ const InteractiveCar = lazy(() => import("../../components/3d/InteractiveCar"));
 
 const featuredSlugs = [
   "max-fashion",
-  "idelta-apple-authorized-reseller",
+  "samsung-experience-store",
   "soch",
-  "pvr-inox-cinemas-multiplex",
+  "pvr-inox",
 ];
+
 
 const floorImage = {
   0: "/images/mall/ground-floor.webp",
@@ -27,8 +28,8 @@ const floorImage = {
   2: "/images/mall/second-floor.webp",
   3: "/images/mall/third-floor.webp",
   4: "/images/entertainment/cinema.webp",
-  5: "/images/dining/restaurant.webp",
 };
+
 
 function LazyCarExperience() {
   const slot = useRef(null);
@@ -110,7 +111,7 @@ export default function HomePage() {
                 Explore the mall <Compass size={17} />
               </Link>
               <Link className="button button-quiet" to="/stores">
-                Browse all 45 destinations <ArrowDownRight size={17} />
+                Browse all {stores.length} destinations <ArrowDownRight size={17} />
               </Link>
             </div>
           </motion.div>
@@ -249,7 +250,7 @@ export default function HomePage() {
               <Link to="/entertainment">
                 <ShoppingBag size={18} />
                 <span>
-                  Entertainment<small>Game Zone · PVR INOX</small>
+                  Entertainment<small>Cinema · PVR INOX</small>
                 </span>
                 <ArrowUpRight size={16} />
               </Link>
